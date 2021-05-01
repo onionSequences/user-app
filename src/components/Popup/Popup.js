@@ -1,3 +1,5 @@
+import { FiX } from "react-icons/fi";
+
 const Popup = props => {
   const { title, children, setOpenPopup } = props;
   return (
@@ -5,7 +7,9 @@ const Popup = props => {
       <div className="popup-wrapper">
         <div className="popup-title">
           <h5>{title}</h5>
-          <button onClick={() => setOpenPopup(false)}>X</button>
+          <button onClick={() => setOpenPopup(false)}>
+            <FiX />
+          </button>
         </div>
         <div className="popup-content">{children}</div>
       </div>

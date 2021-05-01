@@ -14,22 +14,27 @@ const initialUsers = [
     avatar: maleAvatar,
     name: "Jack",
     age: 25,
-    gender: "male",
+    gender: "Male",
   },
   {
     id: 1,
     avatar: femaleAvatar,
     name: "Anna",
     age: 32,
-    gender: "female",
+    gender: "Female",
   },
 ];
+
 const Users = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [users, setUsers] = useState(initialUsers);
 
   const handleClick = () => {
     setOpenPopup(true);
+  };
+
+  const handleSubmit = newUser => {
+    setUsers([newUser, ...users]);
   };
 
   return (
@@ -41,7 +46,7 @@ const Users = () => {
       </section>
       {openPopup && (
         <Popup title="User form" setOpenPopup={setOpenPopup}>
-          <UserForm />
+          <UserForm handleSubmit={handleSubmit} setOpenPopup={setOpenPopup} />
         </Popup>
       )}
     </main>

@@ -1,3 +1,5 @@
+import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
+
 const UserCard = props => {
   const { userData } = props;
   return (
@@ -11,6 +13,17 @@ const UserCard = props => {
           <span> ({userData.age})</span>
         </h4>
         <p>{userData.gender}</p>
+      </div>
+      <div className="card-buttons">
+        <button type="button">
+          <FiEdit /> Edit
+        </button>
+        <button type="button">
+          <FiCopy /> Duplicate
+        </button>
+        <button type="button">
+          <FiTrash2 /> Delete
+        </button>
       </div>
     </div>
   );
