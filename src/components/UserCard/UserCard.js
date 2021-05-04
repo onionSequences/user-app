@@ -18,7 +18,7 @@ const UserCard = props => {
         <button type="button" onClick={() => handleEdit(userData.id)}>
           <FiEdit /> Edit
         </button>
-        <button type="button" onClick={() => handleDuplicate(userData.id)}>
+        <button type="button" onClick={() => handleDuplicate(userData)}>
           <FiCopy /> Duplicate
         </button>
         <button type="button" onClick={() => handleDelete(userData.id)}>

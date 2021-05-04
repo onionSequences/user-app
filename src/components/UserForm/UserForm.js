@@ -7,7 +7,7 @@ import femaleAvatar1 from "../../img/avatars/female-avatar-one.png";
 import femaleAvatar2 from "../../img/avatars/female-avatar-two.png";
 
 const UserForm = props => {
-  const { handleAddOrEdit, setOpenPopup } = props;
+  const { handleAddOrEdit, setOpenPopup, userForEdit } = props;
   const [values, setValues] = useState({
     avatar: "",
     name: "",
@@ -39,6 +39,12 @@ const UserForm = props => {
   useEffect(() => {
     validate();
   }, [values]);
+
+  useEffect(() => {
+    if (userForEdit !== null) {
+      setValues({ ...userForEdit });
+    }
+  }, [userForEdit]);
 
   return (
     <form

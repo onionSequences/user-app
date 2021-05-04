@@ -10,14 +10,14 @@ import femaleAvatar from "../../img/avatars/female-avatar-one.png";
 
 const initialUsers = [
   {
-    id: 0,
+    id: 1,
     avatar: maleAvatar,
     name: "Jack",
     age: 25,
     gender: "Male",
   },
   {
-    id: 1,
+    id: 2,
     avatar: femaleAvatar,
     name: "Anna",
     age: 32,
@@ -30,6 +30,7 @@ const Users = props => {
   const [openPopup, setOpenPopup] = useState(false);
   const [users, setUsers] = useState(initialUsers);
   const [filterUsers, setFilterUsers] = useState(users);
+  const [userForEdit, setUserForEdit] = useState(null);
 
   useEffect(() => {
     const search = searchUser => {
@@ -42,18 +43,34 @@ const Users = props => {
     search(searchUser);
   }, [searchUser, users]);
 
-  const handleAddOrEdit = (e, newUser) => {
-    e.preventDefault();
+  const handleAddOrEdit = (e, user) => {
+    if (user.hasOwnProperty("id")) {
+      let editedUser = user;
+      let indexOfUser = users.findIndex(user => editedUser.id === user.id);
 
-    newUser.id = users.length;
-    setUsers([newUser, ...users]);
+      users[indexOfUser] = { ...editedUser };
+      setFilterUsers(users);
+      setUserForEdit(null);
+    } else {
+      let newUser = user;
 
+      newUser.id = users.length;
+      setUsers([newUser, ...users]);
+    }
     setOpenPopup(false);
   };
 
-  const handleEdit = null;
+  const handleEdit = id => {
+    let userIndex = users.findIndex(user => user.id === id);
+    setUserForEdit(users[userIndex]);
+    setOpenPopup(true);
+  };
 
-  const handleDuplicate = null;
+  const handleDuplicate = user => {
+    const userClone = { ...user };
+    userClone.id = users.length + 1;
+    setUsers([userClone, ...users]);
+  };
 
   const handleDelete = id => {
     setUsers(users.filter(user => user.id !== id));
@@ -77,6 +94,7 @@ const Users = props => {
       {openPopup && (
         <Popup title="User form" setOpenPopup={setOpenPopup}>
           <UserForm
+            userForEdit={userForEdit}
             handleAddOrEdit={handleAddOrEdit}
             setOpenPopup={setOpenPopup}
           />
