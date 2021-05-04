@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import uuid from "react-uuid";
 
 import UserCard from "../UserCard/UserCard";
@@ -12,41 +12,75 @@ const initialUsers = [
   {
     id: 0,
     avatar: maleAvatar,
-    name: "Jack",
+    userName: "Jack",
     age: 25,
     gender: "Male",
   },
   {
     id: 1,
     avatar: femaleAvatar,
-    name: "Anna",
+    userName: "Anna",
     age: 32,
     gender: "Female",
   },
 ];
 
-const Users = () => {
+const Users = props => {
+  const { searchUser } = props;
   const [openPopup, setOpenPopup] = useState(false);
   const [users, setUsers] = useState(initialUsers);
+  const [filterUsers, setFilterUsers] = useState(users);
 
-  const handleClick = () => {
-    setOpenPopup(true);
+  useEffect(() => {
+    const search = searchUser => {
+      const searchedUsers = users.filter(user =>
+        user.userName.toLowerCase().includes(searchUser.toLowerCase())
+      );
+      setFilterUsers(searchedUsers);
+    };
+
+    search(searchUser);
+  }, [searchUser, users]);
+
+  const handleAddOrEdit = (e, newUser) => {
+    e.preventDefault();
+    if (newUser.id) {
+    } else {
+      newUser.id = users.length;
+      setUsers([newUser, ...users]);
+    }
+    setOpenPopup(false);
   };
 
-  const handleSubmit = newUser => {
-    setUsers([newUser, ...users]);
+  const handleEdit = null;
+
+  const handleDuplicate = null;
+
+  const handleDelete = id => {
+    setUsers(users.filter(user => user.id !== id));
   };
 
   return (
     <main>
-      <button onClick={handleClick}>Create User</button>
+      <button onClick={() => setOpenPopup(true)}>Create User</button>
       <section className="users-list">
-        {users &&
-          users.map((user, index) => <UserCard key={uuid()} userData={user} />)}
+        {filterUsers &&
+          filterUsers.map((user, index) => (
+            <UserCard
+              key={uuid()}
+              userData={user}
+              handleEdit={handleEdit}
+              handleDuplicate={handleDuplicate}
+              handleDelete={handleDelete}
+            />
+          ))}
       </section>
       {openPopup && (
         <Popup title="User form" setOpenPopup={setOpenPopup}>
-          <UserForm handleSubmit={handleSubmit} setOpenPopup={setOpenPopup} />
+          <UserForm
+            handleAddOrEdit={handleAddOrEdit}
+            setOpenPopup={setOpenPopup}
+          />
         </Popup>
       )}
     </main>

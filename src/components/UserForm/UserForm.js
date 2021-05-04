@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./UserForm.css";
 
 import maleAvatar1 from "../../img/avatars/male-avatar-one.png";
@@ -7,27 +7,50 @@ import femaleAvatar1 from "../../img/avatars/female-avatar-one.png";
 import femaleAvatar2 from "../../img/avatars/female-avatar-two.png";
 
 const UserForm = props => {
-  const { handleSubmit, setOpenPopup } = props;
+  const { handleAddOrEdit, setOpenPopup } = props;
   const [values, setValues] = useState({
-    id: 0,
     avatar: "",
     userName: "",
     age: "",
     gender: "Male",
   });
+  const [isValid, setIsValid] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  useEffect(
+    e => {
+      const validate = e => {
+        let errors = {};
+        if (!values[e.target.id]) {
+          const errorMsg = `${e.target.id} is required`;
+          setErrors({ ...errors, [e.target.id]: errorMsg });
+          setIsValid(false);
+          return;
+        }
+        setIsValid(true);
+      };
+      validate(e);
+    },
+    [values]
+  );
 
   const handleInputChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   return (
-    <form onSubmit={() => handleSubmit(values)}>
+    <form
+      onSubmit={e =>
+        isValid ? handleAddOrEdit(e, values) : e.preventDefault()
+      }
+    >
       {values.avatar && (
         <div>
           <img src={values.avatar} alt={values.name} />
         </div>
       )}
       <label htmlFor="avatar">Choose avatar:</label>
+      {!isValid && <div style={{ color: "red" }}>{errors.avatar}</div>}
       <select
         value={values.avatar}
         name="avatar"
@@ -77,15 +100,7 @@ const UserForm = props => {
         onChange={handleInputChange}
       />
       <label htmlFor="female">Female</label>
-      <button
-        type="submit"
-        onClick={e => {
-          e.preventDefault();
-          setOpenPopup(false);
-        }}
-      >
-        Submit
-      </button>
+      <button type="submit">Submit</button>
       <button type="button" onClick={() => setOpenPopup(false)}>
         Cancel
       </button>
