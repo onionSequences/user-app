@@ -10,39 +10,43 @@ const UserForm = props => {
   const { handleAddOrEdit, setOpenPopup } = props;
   const [values, setValues] = useState({
     avatar: "",
-    userName: "",
+    name: "",
     age: "",
     gender: "Male",
   });
-  const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState({});
+  const [formValidation, setFormValidation] = useState(false);
 
-  useEffect(
-    e => {
-      const validate = e => {
-        let errors = {};
-        if (!values[e.target.id]) {
-          const errorMsg = `${e.target.id} is required`;
-          setErrors({ ...errors, [e.target.id]: errorMsg });
-          setIsValid(false);
-          return;
-        }
-        setIsValid(true);
-      };
-      validate(e);
-    },
-    [values]
-  );
+  const validate = () => {
+    let fields = values;
+    let formIsValid = true;
+    let errors = {};
+    for (const property in fields) {
+      if (!fields[property]) {
+        formIsValid = false;
+        errors[property] = `${property} is required`;
+      }
+    }
+    setErrors({ ...errors });
+    return setFormValidation(formIsValid);
+  };
 
   const handleInputChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value });
+    validate();
   };
+
+  useEffect(() => {
+    validate();
+  }, [values]);
 
   return (
     <form
-      onSubmit={e =>
-        isValid ? handleAddOrEdit(e, values) : e.preventDefault()
-      }
+      onSubmit={e => {
+        e.preventDefault();
+        validate();
+        if (formValidation) handleAddOrEdit(e, values);
+      }}
     >
       {values.avatar && (
         <div>
@@ -50,7 +54,7 @@ const UserForm = props => {
         </div>
       )}
       <label htmlFor="avatar">Choose avatar:</label>
-      {!isValid && <div style={{ color: "red" }}>{errors.avatar}</div>}
+      {!formValidation && <div style={{ color: "red" }}>{errors.avatar}</div>}
       <select
         value={values.avatar}
         name="avatar"
@@ -65,14 +69,15 @@ const UserForm = props => {
         <option value={femaleAvatar1}>Women 1</option>
         <option value={femaleAvatar2}>Women 2</option>
       </select>
-      <label htmlFor="userName">Name:</label>
+      <label htmlFor="name">Name:</label>
       <input
         type="text"
-        name="userName"
+        name="name"
         id="name"
         value={values.name}
         onChange={handleInputChange}
       />
+      {!formValidation && <div style={{ color: "red" }}>{errors.name}</div>}
       <label htmlFor="age">Age:</label>
       <input
         type="number"
@@ -81,6 +86,7 @@ const UserForm = props => {
         value={values.age}
         onChange={handleInputChange}
       />
+      {!formValidation && <div style={{ color: "red" }}>{errors.age}</div>}
       <label htmlFor="gender">Gender:</label>
       <input
         type="radio"

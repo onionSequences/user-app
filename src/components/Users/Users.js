@@ -12,14 +12,14 @@ const initialUsers = [
   {
     id: 0,
     avatar: maleAvatar,
-    userName: "Jack",
+    name: "Jack",
     age: 25,
     gender: "Male",
   },
   {
     id: 1,
     avatar: femaleAvatar,
-    userName: "Anna",
+    name: "Anna",
     age: 32,
     gender: "Female",
   },
@@ -34,7 +34,7 @@ const Users = props => {
   useEffect(() => {
     const search = searchUser => {
       const searchedUsers = users.filter(user =>
-        user.userName.toLowerCase().includes(searchUser.toLowerCase())
+        user.name.toLowerCase().includes(searchUser.toLowerCase())
       );
       setFilterUsers(searchedUsers);
     };
@@ -44,11 +44,10 @@ const Users = props => {
 
   const handleAddOrEdit = (e, newUser) => {
     e.preventDefault();
-    if (newUser.id) {
-    } else {
-      newUser.id = users.length;
-      setUsers([newUser, ...users]);
-    }
+
+    newUser.id = users.length;
+    setUsers([newUser, ...users]);
+
     setOpenPopup(false);
   };
 

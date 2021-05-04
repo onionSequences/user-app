@@ -5,11 +5,11 @@ const UserCard = props => {
   return (
     <div className="card">
       <div className="avatar">
-        <img src={userData.avatar} alt={userData.userName} />
+        <img src={userData.avatar} alt={userData.name} />
       </div>
       <div className="card-info">
         <h4>
-          {userData.userName}
+          {userData.name}
           <span> ({userData.age})</span>
         </h4>
         <p>{userData.gender}</p>
