@@ -16,6 +16,7 @@ const UserForm = props => {
   });
   const [errors, setErrors] = useState({});
   const [formValidation, setFormValidation] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const validate = () => {
     let fields = values;
@@ -33,11 +34,10 @@ const UserForm = props => {
 
   const handleInputChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    validate();
   };
 
   useEffect(() => {
-    validate();
+    if (showErrors) validate();
   }, [values]);
 
   useEffect(() => {
@@ -51,6 +51,7 @@ const UserForm = props => {
       onSubmit={e => {
         e.preventDefault();
         validate();
+        setShowErrors(true);
         if (formValidation) handleAddOrEdit(e, values);
       }}
     >

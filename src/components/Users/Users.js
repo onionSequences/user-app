@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import uuid from "react-uuid";
+import { AiOutlineSortAscending } from "react-icons/ai";
 
 import UserCard from "../UserCard/UserCard";
 import Popup from "../Popup/Popup";
@@ -31,6 +32,7 @@ const Users = props => {
   const [users, setUsers] = useState(initialUsers);
   const [filterUsers, setFilterUsers] = useState(users);
   const [userForEdit, setUserForEdit] = useState(null);
+  const [sortIsActive, setSortIsActive] = useState(false);
 
   useEffect(() => {
     const search = searchUser => {
@@ -43,7 +45,7 @@ const Users = props => {
     search(searchUser);
   }, [searchUser, users]);
 
-  const handleAddOrEdit = (e, user) => {
+  const handleAddOrEdit = user => {
     if (user.hasOwnProperty("id")) {
       let editedUser = user;
       let indexOfUser = users.findIndex(user => editedUser.id === user.id);
@@ -76,12 +78,33 @@ const Users = props => {
     setUsers(users.filter(user => user.id !== id));
   };
 
+  const handleSort = () => {
+    setSortIsActive(prevState => !prevState);
+  };
+
+  useEffect(() => {
+    // TODO Sorting not working
+    if (sortIsActive) {
+      const sortedUsers = [...users].sort(
+        (a, b) => (a.name > b.name && 1) || -1
+      );
+      setUsers(sortedUsers);
+    } else {
+      const beforeSort = [...users];
+      console.log(beforeSort);
+      setUsers(prevState => prevState);
+    }
+  }, [sortIsActive]);
+
   return (
     <main>
       <button onClick={() => setOpenPopup(true)}>Create User</button>
       <section className="users-list">
-        {filterUsers &&
-          filterUsers.map((user, index) => (
+        <button onClick={handleSort}>
+          <AiOutlineSortAscending /> Sort
+        </button>
+        {filterUsers.length ? (
+          filterUsers.map(user => (
             <UserCard
               key={uuid()}
               userData={user}
@@ -89,7 +112,10 @@ const Users = props => {
               handleDuplicate={handleDuplicate}
               handleDelete={handleDelete}
             />
-          ))}
+          ))
+        ) : (
+          <p>No users to show</p>
+        )}
       </section>
       {openPopup && (
         <Popup title="User form" setOpenPopup={setOpenPopup}>
