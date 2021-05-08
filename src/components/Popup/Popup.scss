@@ -1,0 +1,37 @@
+@import "../../assets/styles/abstracts";
+
+.popup-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $primary-color;
+}
+.popup-wrapper {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto 0;
+  padding: 20px;
+  border-radius: $border-radius-sm;
+  background-color: $secondary-color-darken;
+  color: $text-color;
+
+  .popup-title {
+    @include flex(row, space-between, center);
+
+    h5 {
+      font-size: 1.3em;
+      margin: 0;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    button {
+      height: 40px;
+      width: 40px;
+      font-size: 20px;
+      padding: 4px 0 0 0;
+    }
+  }
+}

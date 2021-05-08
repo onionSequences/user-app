@@ -1,13 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import uuid from "react-uuid";
-import { AiOutlineSortAscending } from "react-icons/ai";
+import { FiGrid, FiList } from "react-icons/fi";
+import "./Users.scss";
 
 import UserCard from "../UserCard/UserCard";
 import Popup from "../Popup/Popup";
 import UserForm from "../UserForm/UserForm";
 
-import maleAvatar from "../../img/avatars/male-avatar-one.png";
-import femaleAvatar from "../../img/avatars/female-avatar-one.png";
+import maleAvatar from "../../assets/img/avatars/male-avatar-one.png";
+import femaleAvatar from "../../assets/img/avatars/female-avatar-one.png";
 
 const initialUsers = [
   {
@@ -32,21 +33,11 @@ const Users = props => {
   const [users, setUsers] = useState(initialUsers);
   const [filterUsers, setFilterUsers] = useState(users);
   const [userForEdit, setUserForEdit] = useState(null);
-  const [sortIsActive, setSortIsActive] = useState(false);
-
-  useEffect(() => {
-    const search = searchUser => {
-      const searchedUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchUser.toLowerCase())
-      );
-      setFilterUsers(searchedUsers);
-    };
-
-    search(searchUser);
-  }, [searchUser, users]);
+  const [sortType, setSortType] = useState("newest");
+  const [isListView, setIsListView] = useState(false);
 
   const handleAddOrEdit = user => {
-    if (user.hasOwnProperty("id")) {
+    if ("id" in user) {
       let editedUser = user;
       let indexOfUser = users.findIndex(user => editedUser.id === user.id);
 
@@ -78,31 +69,54 @@ const Users = props => {
     setUsers(users.filter(user => user.id !== id));
   };
 
-  const handleSort = () => {
-    setSortIsActive(prevState => !prevState);
-  };
+  useEffect(() => {
+    const sortedUsers = sortType => {
+      let sorted;
+      if (sortType === "newest")
+        sorted = [...users].sort((a, b) => (a.id < b.id && 1) || -1);
+
+      if (sortType === "oldest")
+        sorted = [...users].sort((a, b) => (a.id > b.id && 1) || -1);
+
+      if (sortType === "nameAsc")
+        sorted = [...users].sort((a, b) => (a.name > b.name && 1) || -1);
+
+      setUsers(sorted);
+    };
+    sortedUsers(sortType);
+  }, [sortType]);
 
   useEffect(() => {
-    // TODO Sorting not working
-    if (sortIsActive) {
-      const sortedUsers = [...users].sort(
-        (a, b) => (a.name > b.name && 1) || -1
+    const search = searchUser => {
+      const searchedUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchUser.toLowerCase())
       );
-      setUsers(sortedUsers);
-    } else {
-      const beforeSort = [...users];
-      console.log(beforeSort);
-      setUsers(prevState => prevState);
-    }
-  }, [sortIsActive]);
+      setFilterUsers(searchedUsers);
+    };
+
+    search(searchUser);
+  }, [searchUser, users]);
 
   return (
     <main>
-      <button onClick={() => setOpenPopup(true)}>Create User</button>
-      <section className="users-list">
-        <button onClick={handleSort}>
-          <AiOutlineSortAscending /> Sort
-        </button>
+      <div className="control-bar wrapper">
+        <button onClick={() => setOpenPopup(true)}>Add User</button>
+        <div>
+          <button onClick={() => setIsListView(prevState => !prevState)}>
+            {isListView ? <FiGrid /> : <FiList />}
+          </button>
+          <select
+            name="sort"
+            onChange={e => setSortType(e.target.value)}
+            value={sortType}
+          >
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="nameAsc">Name (A-Z)</option>
+          </select>
+        </div>
+      </div>
+      <section className={`users-list wrapper ${isListView ? "list" : ""}`}>
         {filterUsers.length ? (
           filterUsers.map(user => (
             <UserCard

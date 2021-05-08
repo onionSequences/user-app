@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import logo from "../../img/logo.png";
+import "./Header.scss";
+import logo from "../../assets/img/logo.png";
 
 const Header = props => {
   const { search } = props;
@@ -15,12 +16,17 @@ const Header = props => {
 
   return (
     <header>
-      <div className="logo-box">
-        <img src={logo} alt="logo" />
-        <h1>User App</h1>
+      <div className="wrapper">
+        <div className="logo-box">
+          <img src={logo} alt="logo" />
+          <h1>User App</h1>
+        </div>
+        <input
+          placeholder="Search for user..."
+          onChange={handleInputChange}
+          value={searchTerm}
+        />
       </div>
-      <label htmlFor="search">Find User</label>
-      <input id="search" onChange={handleInputChange} value={searchTerm} />
     </header>
   );
 };

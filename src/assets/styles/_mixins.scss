@@ -1,0 +1,21 @@
+@mixin no-mar-and-padd {
+  padding: 0;
+  margin: 0;
+}
+@mixin flex($direction, $justify-content, $align-items) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+@mixin absolute($x, $y) {
+  position: absolute;
+  left: $x;
+  top: $y;
+  transform: translate(-$x, -$y);
+}
+@mixin mq($value) {
+  @media all and (max-width: $value) {
+    @content;
+  }
+}

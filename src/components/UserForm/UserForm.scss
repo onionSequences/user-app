@@ -1,0 +1,37 @@
+@import "../../assets/styles/abstracts";
+
+form {
+  img {
+    display: block;
+    width: 80px;
+    margin: 0 auto $spacer-xs auto;
+  }
+}
+
+.field-wrapper {
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto $spacer-xs auto;
+
+  select {
+    margin-left: 0;
+    height: 35px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  input[type="text"],
+  label:first-of-type {
+    display: block;
+  }
+
+  input[type="radio"]:last-of-type,
+  button:last-of-type {
+    margin-left: $spacer-m;
+    background-color: $secondary-color-lighten;
+  }
+
+  &:last-child {
+    margin: $spacer-s auto 0 auto;
+  }
+}

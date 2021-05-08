@@ -1,3 +1,5 @@
+import "./UserCard.scss";
+
 import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
 
 const UserCard = props => {
@@ -16,13 +18,13 @@ const UserCard = props => {
       </div>
       <div className="card-buttons">
         <button type="button" onClick={() => handleEdit(userData.id)}>
-          <FiEdit /> Edit
+          <FiEdit />
         </button>
         <button type="button" onClick={() => handleDuplicate(userData)}>
-          <FiCopy /> Duplicate
+          <FiCopy />
         </button>
         <button type="button" onClick={() => handleDelete(userData.id)}>
-          <FiTrash2 /> Delete
+          <FiTrash2 />
         </button>
       </div>
     </div>
