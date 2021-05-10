@@ -6,66 +6,31 @@ import "./Users.scss";
 import UserCard from "../UserCard/UserCard";
 import Popup from "../Popup/Popup";
 import UserForm from "../UserForm/UserForm";
-
-import maleAvatar from "../../assets/img/avatars/male-avatar-one.png";
-import femaleAvatar from "../../assets/img/avatars/female-avatar-one.png";
-
-const triggerDirebase = () => {
-  fetch("https://user-app-3b106-default-rtdb.firebaseio.com/data.json")
-    .then(data => data.json())
-    .then(results => {
-      for (const res in results) {
-        console.log(results[res]);
-      }
-    });
-};
-const initialUsers = [
-  {
-    id: 1,
-    avatar: maleAvatar,
-    name: "Jack",
-    age: 25,
-    gender: "Male",
-  },
-  {
-    id: 2,
-    avatar: femaleAvatar,
-    name: "Anna",
-    age: 32,
-    gender: "Female",
-  },
-];
+import * as userServices from "../../services/userServices";
 
 const Users = props => {
   const { searchUser } = props;
+
   const [openPopup, setOpenPopup] = useState(false);
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [filterUsers, setFilterUsers] = useState(users);
   const [userForEdit, setUserForEdit] = useState(null);
   const [sortType, setSortType] = useState("newest");
   const [isListView, setIsListView] = useState(false);
 
+  /* Submit in userForm handling */
   const handleAddOrEdit = user => {
     if ("id" in user) {
-      let editedUser = user;
-      let indexOfUser = users.findIndex(user => editedUser.id === user.id);
-
-      users[indexOfUser] = { ...editedUser };
+      userServices.editUser(user, setUsers);
       setFilterUsers(users);
       setUserForEdit(null);
     } else {
-      let newUser = user;
-      // console.log(newUser);
-      fetch("https://user-app-3b106-default-rtdb.firebaseio.com/data.json", {
-        method: "POST",
-        body: JSON.stringify(newUser),
-      });
-      // newUser.id = users.length;
-      // setUsers([newUser, ...users]);
+      userServices.addUser(user, setUsers);
     }
     setOpenPopup(false);
   };
 
+  /* User card button click handling */
   const handleEdit = id => {
     let userIndex = users.findIndex(user => user.id === id);
     setUserForEdit(users[userIndex]);
@@ -73,14 +38,18 @@ const Users = props => {
   };
 
   const handleDuplicate = user => {
-    const userClone = { ...user };
-    userClone.id = users.length + 1;
-    setUsers([userClone, ...users]);
+    user.name = `${user.name} Copy`;
+    userServices.addUser(user, setUsers);
   };
 
   const handleDelete = id => {
-    setUsers(users.filter(user => user.id !== id));
+    userServices.deleteUser(id, setUsers);
   };
+
+  /* Initial data */
+  useEffect(() => {
+    userServices.getUsers(setUsers);
+  }, []);
 
   useEffect(() => {
     const sortedUsers = sortType => {
@@ -148,6 +117,7 @@ const Users = props => {
         <Popup title="User form" setOpenPopup={setOpenPopup}>
           <UserForm
             userForEdit={userForEdit}
+            setUserForEdit={setUserForEdit}
             handleAddOrEdit={handleAddOrEdit}
             setOpenPopup={setOpenPopup}
           />

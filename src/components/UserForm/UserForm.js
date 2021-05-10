@@ -7,7 +7,8 @@ import femaleAvatar1 from "../../assets/img/avatars/female-avatar-one.png";
 import femaleAvatar2 from "../../assets/img/avatars/female-avatar-two.png";
 
 const UserForm = props => {
-  const { handleAddOrEdit, setOpenPopup, userForEdit } = props;
+  const { handleAddOrEdit, setOpenPopup, userForEdit, setUserForEdit } = props;
+
   const [values, setValues] = useState({
     avatar: "",
     name: "",
@@ -122,7 +123,13 @@ const UserForm = props => {
         <label htmlFor="female">Female</label>
       </div>
       <div className="field-wrapper">
-        <button type="button" onClick={() => setOpenPopup(false)}>
+        <button
+          type="button"
+          onClick={() => {
+            setOpenPopup(false);
+            setUserForEdit(null);
+          }}
+        >
           Cancel
         </button>
         <button type="submit">Submit</button>

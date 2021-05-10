@@ -1,9 +1,11 @@
+import { useState } from "react";
 import "./UserCard.scss";
 
 import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
 
 const UserCard = props => {
   const { userData, handleEdit, handleDuplicate, handleDelete } = props;
+
   return (
     <div className="card">
       <div className="avatar">
