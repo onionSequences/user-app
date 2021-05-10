@@ -10,6 +10,15 @@ import UserForm from "../UserForm/UserForm";
 import maleAvatar from "../../assets/img/avatars/male-avatar-one.png";
 import femaleAvatar from "../../assets/img/avatars/female-avatar-one.png";
 
+const triggerDirebase = () => {
+  fetch("https://user-app-3b106-default-rtdb.firebaseio.com/data.json")
+    .then(data => data.json())
+    .then(results => {
+      for (const res in results) {
+        console.log(results[res]);
+      }
+    });
+};
 const initialUsers = [
   {
     id: 1,
@@ -46,9 +55,13 @@ const Users = props => {
       setUserForEdit(null);
     } else {
       let newUser = user;
-
-      newUser.id = users.length;
-      setUsers([newUser, ...users]);
+      // console.log(newUser);
+      fetch("https://user-app-3b106-default-rtdb.firebaseio.com/data.json", {
+        method: "POST",
+        body: JSON.stringify(newUser),
+      });
+      // newUser.id = users.length;
+      // setUsers([newUser, ...users]);
     }
     setOpenPopup(false);
   };
