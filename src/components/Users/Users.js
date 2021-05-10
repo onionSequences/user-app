@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import uuid from "react-uuid";
+import { Link } from "react-router-dom";
 import { FiGrid, FiList } from "react-icons/fi";
 import "./Users.scss";
 
@@ -82,7 +83,9 @@ const Users = props => {
   return (
     <main>
       <div className="control-bar wrapper">
-        <button onClick={() => setOpenPopup(true)}>Add User</button>
+        <Link to="./create-user">
+          <button>Add User</button>
+        </Link>
         <div>
           <button onClick={() => setIsListView(prevState => !prevState)}>
             {isListView ? <FiGrid /> : <FiList />}

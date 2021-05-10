@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App/App";
+import { BrowserRouter } from "react-router-dom";
 
 var firebaseConfig = {
   apiKey: "AIzaSyCMP9K29Uo2hGA6oFzeUH0lCDWvGG85Ihc",
@@ -13,8 +14,8 @@ var firebaseConfig = {
 };
 
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <App />
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById("app")
 );
