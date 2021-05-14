@@ -1,33 +1,29 @@
-import { useState } from "react";
-import { Redirect } from "react-router";
+import { useHistory } from "react-router";
+import firebase from "../util/firebase";
+
 import Popup from "../components/Popup/Popup";
 import UserForm from "../components/UserForm/UserForm";
-import * as userServices from "../services/userServices";
 
 const CreateUser = () => {
-  const [openPopup, setOpenPopup] = useState(false);
-  const [redirect, setRedirect] = useState(false);
+  let history = useHistory();
 
-  const handleAddOrEdit = user => {
-    // userServices.addUser(user, setUsers);
-    setRedirect(true);
-  };
+  const handleSubmit = userData => {
+    const userRef = firebase.database().ref("Users");
 
-  const handleCancelClick = () => {
-    setRedirect(true);
+    const user = {
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      ...userData,
+    };
+
+    userRef.push(user);
+
+    history.push("/");
   };
 
   return (
-    <>
-      <Popup title="User form" setOpenPopup={setOpenPopup}>
-        <UserForm
-          handleAddOrEdit={handleAddOrEdit}
-          setOpenPopup={setOpenPopup}
-          handleCancelClick={handleCancelClick}
-        />
-      </Popup>
-      {redirect && <Redirect exact to="/" />}
-    </>
+    <Popup title="User form">
+      <UserForm handleSubmit={handleSubmit} />
+    </Popup>
   );
 };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import "./UserForm.scss";
 
 import maleAvatar1 from "../../assets/img/avatars/male-avatar-one.png";
@@ -7,13 +8,7 @@ import femaleAvatar1 from "../../assets/img/avatars/female-avatar-one.png";
 import femaleAvatar2 from "../../assets/img/avatars/female-avatar-two.png";
 
 const UserForm = props => {
-  const {
-    handleAddOrEdit,
-    setOpenPopup,
-    userForEdit,
-    setUserForEdit,
-    handleCancelClick,
-  } = props;
+  const { userForEdit = null, handleSubmit } = props;
 
   const [values, setValues] = useState({
     avatar: "",
@@ -21,9 +16,11 @@ const UserForm = props => {
     age: "",
     gender: "Male",
   });
+
   const [errors, setErrors] = useState({});
-  const [formValidation, setFormValidation] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+
+  let history = useHistory();
 
   const validate = () => {
     let fields = values;
@@ -37,7 +34,7 @@ const UserForm = props => {
     }
     setShowErrors(!formIsValid);
     setErrors({ ...errors });
-    return setFormValidation(formIsValid);
+    return formIsValid;
   };
 
   const handleInputChange = e => {
@@ -58,8 +55,7 @@ const UserForm = props => {
     <form
       onSubmit={e => {
         e.preventDefault();
-        validate();
-        if (formValidation) handleAddOrEdit(values);
+        if (validate()) handleSubmit(values);
       }}
     >
       {values.avatar && (
@@ -69,7 +65,7 @@ const UserForm = props => {
       )}
       <div className="field-wrapper">
         <label htmlFor="avatar">Choose avatar:</label>
-        {!formValidation && <div style={{ color: "red" }}>{errors.avatar}</div>}
+        {showErrors && <div style={{ color: "red" }}>{errors.avatar}</div>}
         <select
           value={values.avatar}
           name="avatar"
@@ -94,7 +90,7 @@ const UserForm = props => {
           value={values.name}
           onChange={handleInputChange}
         />
-        {!formValidation && <div style={{ color: "red" }}>{errors.name}</div>}
+        {showErrors && <div style={{ color: "red" }}>{errors.name}</div>}
       </div>
       <div className="field-wrapper">
         <label htmlFor="age">Age:</label>
@@ -105,7 +101,7 @@ const UserForm = props => {
           value={values.age}
           onChange={handleInputChange}
         />
-        {!formValidation && <div style={{ color: "red" }}>{errors.age}</div>}
+        {showErrors && <div style={{ color: "red" }}>{errors.age}</div>}
       </div>
       <div className="field-wrapper">
         <label htmlFor="gender">Gender:</label>
@@ -129,7 +125,7 @@ const UserForm = props => {
         <label htmlFor="female">Female</label>
       </div>
       <div className="field-wrapper">
-        <button type="button" onClick={handleCancelClick}>
+        <button type="button" onClick={() => history.push("/")}>
           Cancel
         </button>
         <button type="submit">Submit</button>

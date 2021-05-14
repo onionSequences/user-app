@@ -65,17 +65,20 @@
   .card-info {
     display: flex;
     padding-left: $spacer-m;
-    flex-grow: 1;
     margin: auto;
+    flex: 1 1 100%;
 
     @include mq($medium) {
       display: initial;
       padding-left: 0;
     }
 
+    > * {
+      flex: 1 1 100%;
+    }
+
     h4 {
       margin-top: 0;
-      padding-right: $spacer-m;
 
       @include mq($medium) {
         padding-right: 0;
@@ -90,9 +93,13 @@
   .card-buttons {
     align-items: center;
 
-    @include mq($medium) {
+    @include mq($large) {
       flex-direction: column;
       width: auto;
+      margin-left: $spacer-m;
+    }
+    @include mq($medium) {
+      margin-left: 0;
     }
   }
 }
