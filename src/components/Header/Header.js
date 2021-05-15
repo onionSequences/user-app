@@ -1,18 +1,27 @@
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import "./Header.scss";
-import logo from "../../assets/img/logo.png";
 
-const Header = props => {
-  const { search } = props;
+import logo from "../../assets/img/logo.png";
+import { searchQuery, searchUsers } from "../../redux/userSlice";
+
+const Header = () => {
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleInputChange = e => {
     setSearchTerm(e.target.value);
+    dispatch(searchQuery(e.target.value));
   };
 
   useEffect(() => {
-    search(searchTerm);
-  }, [searchTerm]);
+    if (searchTerm) {
+      const search = searchTerm => {
+        dispatch(searchUsers(searchTerm));
+      };
+      search(searchTerm);
+    }
+  }, [searchTerm, dispatch]);
 
   return (
     <header>

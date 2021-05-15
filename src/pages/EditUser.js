@@ -1,15 +1,16 @@
 import { useHistory } from "react-router-dom";
-import firebase from "../util/firebase";
+import { useSelector } from "react-redux";
 
 import Popup from "../components/Popup/Popup";
 import UserForm from "../components/UserForm/UserForm";
+import firebase from "../util/firebase";
 
-const EditUser = props => {
-  const { userForEdit } = props;
+const EditUser = () => {
   let history = useHistory();
+  const editUserData = useSelector(state => state.users.editUserData);
 
   const handleSubmit = values => {
-    const userRef = firebase.database().ref("Users").child(userForEdit.id);
+    const userRef = firebase.database().ref("Users").child(editUserData.id);
     userRef.update({
       ...values,
     });
@@ -19,7 +20,7 @@ const EditUser = props => {
   return (
     <>
       <Popup title="User form">
-        <UserForm userForEdit={userForEdit} handleSubmit={handleSubmit} />
+        <UserForm handleSubmit={handleSubmit} />
       </Popup>
     </>
   );

@@ -1,14 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 import "./UserForm.scss";
 
 import maleAvatar1 from "../../assets/img/avatars/male-avatar-one.png";
 import maleAvatar2 from "../../assets/img/avatars/male-avatar-two.png";
 import femaleAvatar1 from "../../assets/img/avatars/female-avatar-one.png";
 import femaleAvatar2 from "../../assets/img/avatars/female-avatar-two.png";
+import { editUserData as setEditUserData } from "../../redux/userSlice";
 
 const UserForm = props => {
-  const { userForEdit = null, handleSubmit } = props;
+  const { handleSubmit } = props;
+
+  const editUserData = useSelector(state => state.users.editUserData);
+  const dispatch = useDispatch();
 
   const [values, setValues] = useState({
     avatar: "",
@@ -22,7 +27,7 @@ const UserForm = props => {
 
   let history = useHistory();
 
-  const validate = () => {
+  const validate = useCallback(() => {
     let fields = values;
     let formIsValid = true;
     let errors = {};
@@ -35,7 +40,7 @@ const UserForm = props => {
     setShowErrors(!formIsValid);
     setErrors({ ...errors });
     return formIsValid;
-  };
+  }, [values]);
 
   const handleInputChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -43,13 +48,13 @@ const UserForm = props => {
 
   useEffect(() => {
     if (showErrors) validate();
-  }, [values]);
+  }, [values, showErrors, validate]);
 
   useEffect(() => {
-    if (userForEdit !== null) {
-      setValues({ ...userForEdit });
+    if (editUserData !== null) {
+      setValues({ ...editUserData });
     }
-  }, [userForEdit]);
+  }, [editUserData]);
 
   return (
     <form
@@ -125,7 +130,13 @@ const UserForm = props => {
         <label htmlFor="female">Female</label>
       </div>
       <div className="field-wrapper">
-        <button type="button" onClick={() => history.push("/")}>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(setEditUserData(null));
+            history.push("/");
+          }}
+        >
           Cancel
         </button>
         <button type="submit">Submit</button>

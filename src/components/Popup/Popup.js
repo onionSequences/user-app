@@ -1,14 +1,18 @@
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { FiX } from "react-icons/fi";
 import "./Popup.scss";
 
-import { FiX } from "react-icons/fi";
+import { editUserData } from "../../redux/userSlice";
 
 const Popup = props => {
   const { title, children } = props;
 
+  const dispatch = useDispatch();
   let history = useHistory();
 
   const handleClick = () => {
+    dispatch(editUserData(null));
     history.push("/");
   };
 

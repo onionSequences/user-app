@@ -1,8 +1,8 @@
 import { useHistory } from "react-router";
-import firebase from "../util/firebase";
 
 import Popup from "../components/Popup/Popup";
 import UserForm from "../components/UserForm/UserForm";
+import firebase from "../util/firebase";
 
 const CreateUser = () => {
   let history = useHistory();

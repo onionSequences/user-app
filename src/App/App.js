@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Header from "../components/Header/Header";
@@ -7,29 +6,18 @@ import CreateUser from "../pages/CreateUser";
 import EditUser from "../pages/EditUser";
 
 function App() {
-  const [searchUser, setSearchUser] = useState("");
-  const [userForEdit, setUserForEdit] = useState(null);
-
-  const search = searchTerm => {
-    setSearchUser(searchTerm);
-  };
-
-  const onEdit = user => {
-    setUserForEdit(user);
-  };
-
   return (
     <>
-      <Header search={search} />
+      <Header />
       <Switch>
         <Route exact path="/">
-          <Users searchUser={searchUser} onEdit={onEdit} />
+          <Users />
         </Route>
         <Route exact path="/create-user">
           <CreateUser />
         </Route>
         <Route exact path="/user/edit/:id">
-          <EditUser userForEdit={userForEdit} />
+          <EditUser />
         </Route>
       </Switch>
     </>

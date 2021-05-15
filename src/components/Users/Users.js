@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import firebase from "../../util/firebase";
 import { FiGrid, FiList } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
 import "./Users.scss";
 
 import UserCard from "../UserCard/UserCard";
+import firebase from "firebase";
+import { setUsers } from "../../redux/userSlice";
 
-const Users = props => {
-  const { searchUser, onEdit } = props;
+const Users = () => {
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.users.users);
+  const searchQuery = useSelector(state => state.users.searchQuery);
+  const searchUsers = useSelector(state => state.users.searchUsers);
 
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filterUsers, setFilterUsers] = useState(users);
+  const [isLoading, setIsLoading] = useState(false);
   const [sortType, setSortType] = useState("newest");
   const [isListView, setIsListView] = useState(false);
 
@@ -29,14 +32,14 @@ const Users = props => {
       }
       // Get newest first
       listUsers.sort((a, b) => (a.id < b.id && 1) || -1);
-      setUsers(listUsers);
+      dispatch(setUsers(listUsers));
       setIsLoading(false);
     });
 
     return () => {
       usersRef.off();
     };
-  }, []);
+  }, [dispatch]);
 
   // Sorting
   useEffect(() => {
@@ -51,23 +54,12 @@ const Users = props => {
       if (sortType === "nameAsc")
         sorted = [...users].sort((a, b) => a.name.localeCompare(b.name));
 
-      setUsers(sorted);
+      dispatch(setUsers(sorted));
     };
     sortedUsers(sortType);
-  }, [sortType]);
+  }, [sortType, dispatch]);
 
-  // Searching
-  useEffect(() => {
-    const search = searchUser => {
-      const searchedUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchUser.toLowerCase())
-      );
-      setFilterUsers(searchedUsers);
-    };
-
-    search(searchUser);
-  }, [searchUser, users]);
-
+  const activeUsers = searchQuery ? searchUsers : users;
   return (
     <main>
       <div className="control-bar wrapper">
@@ -89,10 +81,8 @@ const Users = props => {
       </div>
       {isLoading && <p>Loading...</p>}
       <section className={`users-list wrapper ${isListView ? "list" : ""}`}>
-        {users.length &&
-          filterUsers.map(user => (
-            <UserCard key={user.id} userData={user} onEdit={onEdit} />
-          ))}
+        {activeUsers &&
+          activeUsers.map(user => <UserCard key={user.id} userData={user} />)}
       </section>
     </main>
   );

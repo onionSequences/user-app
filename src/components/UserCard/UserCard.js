@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
-import firebase from "../../util/firebase";
+import { useDispatch } from "react-redux";
+import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
 import "./UserCard.scss";
 
-import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
+import { editUserData } from "../../redux/userSlice";
+import firebase from "../../util/firebase";
 
 const UserCard = props => {
-  const { userData, onEdit } = props;
+  const { userData } = props;
+
+  const dispatch = useDispatch();
   let [numOfClones, setNumOfClones] = useState(1);
   let history = useHistory();
 
@@ -28,7 +32,7 @@ const UserCard = props => {
   };
 
   const handleEdit = () => {
-    onEdit(userData);
+    dispatch(editUserData(userData));
     history.push(`/user/edit/${userData.id}`);
   };
 
