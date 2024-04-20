@@ -1,4 +1,4 @@
-@import "../../assets/styles/abstracts";
+@import "../../styles/abstracts";
 
 main {
   min-height: 100vh;
@@ -11,6 +11,7 @@ main {
     margin-top: 40px;
   }
 }
+
 .control-bar {
   @include flex(row, space-between, initial);
 
@@ -35,6 +36,7 @@ main {
     }
   }
 }
+
 .users-list {
   margin-top: $spacer-m;
   display: grid;

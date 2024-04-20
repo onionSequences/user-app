@@ -1,16 +1,20 @@
+'use client'
+
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import "./UserForm.scss";
 
-import femaleAvatar1 from "../../assets/img/avatars/female-avatar-one.png";
-import femaleAvatar2 from "../../assets/img/avatars/female-avatar-two.png";
-import maleAvatar1 from "../../assets/img/avatars/male-avatar-one.png";
-import maleAvatar2 from "../../assets/img/avatars/male-avatar-two.png";
+import "./userForm.scss";
+
+import femaleAvatar1 from "../../../public/female-avatar-one.png";
+import femaleAvatar2 from "../../../public/female-avatar-two.png";
+import maleAvatar1 from "../../../public/male-avatar-one.png";
+import maleAvatar2 from "../../../public/male-avatar-two.png";
 import { editUserData as setEditUserData } from "../../redux/userSlice";
 
-const UserForm = props => {
-  const { handleSubmit } = props;
+// TODO: Refactor this later
+export function UserForm({ handleSubmit }) {
+  const router = useRouter();
 
   const editUserData = useSelector(state => state.users.editUserData);
   const dispatch = useDispatch();
@@ -25,7 +29,6 @@ const UserForm = props => {
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
 
-  let history = useHistory();
 
   const validate = useCallback(() => {
     let fields = values;
@@ -80,10 +83,10 @@ const UserForm = props => {
           <option value="" defaultValue hidden>
             Not selected
           </option>
-          <option value={maleAvatar1}>Men 1</option>
-          <option value={maleAvatar2}>Men 2</option>
-          <option value={femaleAvatar1}>Women 1</option>
-          <option value={femaleAvatar2}>Women 2</option>
+          <option value={maleAvatar1.src}>Men 1</option>
+          <option value={maleAvatar2.src}>Men 2</option>
+          <option value={femaleAvatar1.src}>Women 1</option>
+          <option value={femaleAvatar2.src}>Women 2</option>
         </select>
       </div>
       <div className="field-wrapper">
@@ -134,7 +137,7 @@ const UserForm = props => {
           type="button"
           onClick={() => {
             dispatch(setEditUserData(null));
-            history.push("/");
+            router.push("/");
           }}
         >
           Cancel
@@ -144,5 +147,3 @@ const UserForm = props => {
     </form>
   );
 };
-
-export default UserForm;

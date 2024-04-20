@@ -1,14 +1,21 @@
+'use client'
+
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { FiGrid, FiList } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import "./Users.scss";
 
-import firebase from "firebase";
+
+import { onValue, ref } from "firebase/database";
+import { UserCard } from "../../components/UserCard";
 import { setUsers } from "../../redux/userSlice";
-import UserCard from "../UserCard/UserCard";
 
-const Users = () => {
+import { db } from './../../lib/firebase';
+import "./dashboard.scss";
+
+export default function DashboardPage() {
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const users = useSelector(state => state.users.users);
   const searchQuery = useSelector(state => state.users.searchQuery);
@@ -18,14 +25,13 @@ const Users = () => {
   const [sortType, setSortType] = useState("newest");
   const [isListView, setIsListView] = useState(false);
 
-  const history = useHistory();
 
   /* Initial data */
   useEffect(() => {
     setIsLoading(true);
-    const usersRef = firebase.database().ref("Users");
-    usersRef.on("value", snapshot => {
-      const users = snapshot.val();
+    const usersRef = ref(db, 'users/')
+    onValue(usersRef, (snapshot) => {
+      const users = snapshot.val()
       const listUsers = [];
       for (let id in users) {
         listUsers.push({ id, ...users[id] });
@@ -35,10 +41,6 @@ const Users = () => {
       dispatch(setUsers(listUsers));
       setIsLoading(false);
     });
-
-    return () => {
-      usersRef.off();
-    };
   }, [dispatch]);
 
   // Sorting
@@ -54,16 +56,18 @@ const Users = () => {
       if (sortType === "nameAsc")
         sorted = [...users].sort((a, b) => a.name.localeCompare(b.name));
 
-      dispatch(setUsers(sorted));
+      if (JSON.stringify(sorted) !== JSON.stringify(users)) {
+        dispatch(setUsers(sorted));
+      }
     };
     sortedUsers(sortType);
-  }, [sortType, dispatch]);
+  }, [sortType, dispatch, users]);
 
   const activeUsers = searchQuery ? searchUsers : users;
   return (
-    <main>
+    <>
       <div className="control-bar wrapper">
-        <button onClick={() => history.push("/create-user")}>Add User</button>
+        <button onClick={() => router.push("/create")}>Add User</button>
         <div>
           <button onClick={() => setIsListView(prevState => !prevState)}>
             {isListView ? <FiGrid /> : <FiList />}
@@ -84,8 +88,6 @@ const Users = () => {
         {activeUsers &&
           activeUsers.map(user => <UserCard key={user.id} userData={user} />)}
       </section>
-    </main>
+    </>
   );
-};
-
-export default Users;
+}

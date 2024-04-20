@@ -1,11 +1,13 @@
+'use client'
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import "./Header.scss";
+import "./header.scss";
 
-import logo from "../../assets/img/logo.png";
+import logo from "../../../public/logo.png";
 import { searchQuery, searchUsers } from "../../redux/userSlice";
 
-const Header = () => {
+export function Header() {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -27,7 +29,7 @@ const Header = () => {
     <header>
       <div className="wrapper">
         <div className="logo-box">
-          <img src={logo} alt="logo" />
+          <img src={logo.src} alt="logo" />
           <h1>User App</h1>
         </div>
         <input
@@ -39,5 +41,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

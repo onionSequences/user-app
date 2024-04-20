@@ -1,19 +1,21 @@
+'use client'
+
+import { useRouter } from 'next/navigation';
 import { FiX } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import "./Popup.scss";
-
 import { editUserData } from "../../redux/userSlice";
 
-const Popup = props => {
+import "./popup.scss";
+
+export function Popup(props) {
   const { title, children } = props;
 
   const dispatch = useDispatch();
-  let history = useHistory();
+  const router = useRouter();
 
   const handleClick = () => {
     dispatch(editUserData(null));
-    history.push("/");
+    router.push("/");
   };
 
   return (
@@ -31,5 +33,3 @@ const Popup = props => {
     </div>
   );
 };
-
-export default Popup;
