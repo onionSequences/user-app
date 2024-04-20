@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { FiGrid, FiList } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import "./Users.scss";
 
-import UserCard from "../UserCard/UserCard";
 import firebase from "firebase";
 import { setUsers } from "../../redux/userSlice";
+import UserCard from "../UserCard/UserCard";
 
 const Users = () => {
   const dispatch = useDispatch();

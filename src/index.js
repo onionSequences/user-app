@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./index.scss";
 
-import store from "./redux/store";
 import App from "./App/App";
+import store from "./redux/store";
 
 ReactDOM.render(
   <Router basename={process.env.PUBLIC_URL}>

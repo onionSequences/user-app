@@ -1,6 +1,6 @@
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { FiX } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import "./Popup.scss";
 
 import { editUserData } from "../../redux/userSlice";

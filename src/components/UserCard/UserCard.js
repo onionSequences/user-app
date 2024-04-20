@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
+import { FiCopy, FiEdit, FiTrash2 } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
+import { useHistory } from "react-router";
 import "./UserCard.scss";
 
 import { editUserData } from "../../redux/userSlice";

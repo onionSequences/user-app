@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
 import "./Header.scss";
 
 import logo from "../../assets/img/logo.png";

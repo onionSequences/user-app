@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
 import "./UserForm.scss";
 
-import maleAvatar1 from "../../assets/img/avatars/male-avatar-one.png";
-import maleAvatar2 from "../../assets/img/avatars/male-avatar-two.png";
 import femaleAvatar1 from "../../assets/img/avatars/female-avatar-one.png";
 import femaleAvatar2 from "../../assets/img/avatars/female-avatar-two.png";
+import maleAvatar1 from "../../assets/img/avatars/male-avatar-one.png";
+import maleAvatar2 from "../../assets/img/avatars/male-avatar-two.png";
 import { editUserData as setEditUserData } from "../../redux/userSlice";
 
 const UserForm = props => {

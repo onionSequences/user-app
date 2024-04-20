@@ -1,5 +1,5 @@
-import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Popup from "../components/Popup/Popup";
 import UserForm from "../components/UserForm/UserForm";
