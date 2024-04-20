@@ -6,6 +6,7 @@ import "./header.scss";
 
 import logo from "../../../public/logo.png";
 import { searchQuery, searchUsers } from "../../redux/userSlice";
+import Image from "next/image";
 
 export function Header() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ export function Header() {
     <header>
       <div className="wrapper">
         <div className="logo-box">
-          <img src={logo.src} alt="logo" />
+          <Image src={logo.src} alt="logo" width={32} height={32} />
           <h1>User App</h1>
         </div>
         <input

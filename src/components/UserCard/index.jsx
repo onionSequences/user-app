@@ -9,6 +9,7 @@ import { editUserData } from "../../redux/userSlice";
 
 import { db } from './../../lib/firebase';
 import "./userCard.scss";
+import Image from "next/image";
 
 export function UserCard({ userData }) {
   const router = useRouter();
@@ -42,7 +43,7 @@ export function UserCard({ userData }) {
   return (
     <div className="card">
       <div className="avatar">
-        <img src={userData.avatar} alt={userData.name} />
+        <Image src={userData.avatar} alt={userData.name} width={100} height={100} />
       </div>
       <div className="card-info">
         <h4>

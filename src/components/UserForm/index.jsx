@@ -11,6 +11,7 @@ import femaleAvatar2 from "../../../public/female-avatar-two.png";
 import maleAvatar1 from "../../../public/male-avatar-one.png";
 import maleAvatar2 from "../../../public/male-avatar-two.png";
 import { editUserData as setEditUserData } from "../../redux/userSlice";
+import Image from "next/image";
 
 // TODO: Refactor this later
 export function UserForm({ handleSubmit }) {
@@ -67,9 +68,7 @@ export function UserForm({ handleSubmit }) {
       }}
     >
       {values.avatar && (
-        <>
-          <img src={values.avatar} alt={values.name} />
-        </>
+          <Image src={values.avatar} alt={values.name} width={100} height={100} />
       )}
       <div className="field-wrapper">
         <label htmlFor="avatar">Choose avatar:</label>
