@@ -3,18 +3,19 @@
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import './userForm.scss';
+import { editUserData as setEditUserData } from '../../redux/userSlice';
+import Image from 'next/image';
 
 import femaleAvatar1 from '../../../public/female-avatar-one.png';
 import femaleAvatar2 from '../../../public/female-avatar-two.png';
 import maleAvatar1 from '../../../public/male-avatar-one.png';
 import maleAvatar2 from '../../../public/male-avatar-two.png';
-import { editUserData as setEditUserData } from '../../redux/userSlice';
-import Image from 'next/image';
+
+
+import './userForm.scss';
 
 // TODO: Refactor this later
-export function UserForm({ handleSubmit }) {
+export function UserForm({handleSubmit}) {
   const router = useRouter();
 
   const editUserData = useSelector((state) => state.users.editUserData);
@@ -41,12 +42,12 @@ export function UserForm({ handleSubmit }) {
       }
     }
     setShowErrors(!formIsValid);
-    setErrors({ ...errors });
+    setErrors({...errors});
     return formIsValid;
   }, [values]);
 
   const handleInputChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({...values, [e.target.name]: e.target.value});
   };
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export function UserForm({ handleSubmit }) {
 
   useEffect(() => {
     if (editUserData !== null) {
-      setValues({ ...editUserData });
+      setValues({...editUserData});
     }
   }, [editUserData]);
 
@@ -67,11 +68,11 @@ export function UserForm({ handleSubmit }) {
       }}
     >
       {values.avatar && (
-        <Image src={values.avatar} alt={values.name} width={100} height={100} />
+        <Image src={values.avatar} alt={values.name} width={100} height={100}/>
       )}
       <div className="field-wrapper">
         <label htmlFor="avatar">Choose avatar:</label>
-        {showErrors && <div style={{ color: 'red' }}>{errors.avatar}</div>}
+        {showErrors && <div style={{color: 'red'}}>{errors.avatar}</div>}
         <select
           value={values.avatar}
           name="avatar"
@@ -96,7 +97,7 @@ export function UserForm({ handleSubmit }) {
           value={values.name}
           onChange={handleInputChange}
         />
-        {showErrors && <div style={{ color: 'red' }}>{errors.name}</div>}
+        {showErrors && <div style={{color: 'red'}}>{errors.name}</div>}
       </div>
       <div className="field-wrapper">
         <label htmlFor="age">Age:</label>
@@ -107,7 +108,7 @@ export function UserForm({ handleSubmit }) {
           value={values.age}
           onChange={handleInputChange}
         />
-        {showErrors && <div style={{ color: 'red' }}>{errors.age}</div>}
+        {showErrors && <div style={{color: 'red'}}>{errors.age}</div>}
       </div>
       <div className="field-wrapper">
         <label htmlFor="gender">Gender:</label>
