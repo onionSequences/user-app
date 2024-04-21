@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { Provider } from "react-redux";
-import store from "../../redux/store";
+import { Provider } from 'react-redux';
+import store from '../../redux/store';
 
-import { Header } from "../../components/Header";
-import "../../styles/globals.scss";
+import { Header } from '../../components/Header';
+import '../../styles/globals.scss';
 
 export default function RootLayout({ children }) {
   return (
@@ -17,9 +17,7 @@ export default function RootLayout({ children }) {
         <Provider store={store}>
           <div id="root">
             <Header />
-            <main>
-              {children}
-            </main>
+            <main>{children}</main>
           </div>
         </Provider>
       </body>
