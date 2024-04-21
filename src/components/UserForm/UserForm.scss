@@ -1,4 +1,4 @@
-@import "../../styles/abstracts";
+@import '../../styles/abstracts';
 
 form {
   img {
@@ -20,12 +20,12 @@ form {
     max-width: 200px;
   }
 
-  input[type="text"],
+  input[type='text'],
   label:first-of-type {
     display: block;
   }
 
-  input[type="radio"]:last-of-type,
+  input[type='radio']:last-of-type,
   button:last-of-type {
     margin-left: $spacer-m;
     background-color: $secondary-color-lighten;

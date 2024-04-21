@@ -1,4 +1,4 @@
-@import "../../styles/abstracts";
+@import '../../styles/abstracts';
 
 .popup-background {
   position: fixed;
@@ -8,6 +8,7 @@
   bottom: 0;
   background-color: $primary-color;
 }
+
 .popup-wrapper {
   width: 100%;
   max-width: 500px;
