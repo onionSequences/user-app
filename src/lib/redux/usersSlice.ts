@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { User, Users } from '@/types/user';
 
-export const userSlice = createSlice({
+export const usersSlice = createSlice({
   name: 'users',
   initialState: {
-    users: [],
-    searchResults: [],
+    users: [] as Users,
+    searchResults: [] as Users,
+    searchUsers: [] as Users,
     searchQuery: '',
-    editUserData: null,
+    editUserData: null as User | null,
   },
   reducers: {
     setUsers: (state, { payload }) => {
@@ -27,6 +29,6 @@ export const userSlice = createSlice({
 });
 
 export const { setUsers, searchUsers, searchQuery, editUserData } =
-	userSlice.actions;
+  usersSlice.actions;
 
-export default userSlice.reducer;
+export default usersSlice.reducer;

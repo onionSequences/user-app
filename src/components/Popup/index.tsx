@@ -2,15 +2,19 @@
 
 import { useRouter } from 'next/navigation';
 import { FiX } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
-import { editUserData } from '../../redux/userSlice';
+import { editUserData } from 'lib/redux/usersSlice';
 
 import './popup.scss';
+import { useAppDispatch } from 'lib/redux/hooks';
+import { ReactNode } from 'react';
 
-export function Popup(props) {
-  const { title, children } = props;
+type Props = {
+  title: string;
+  children: ReactNode;
+};
 
-  const dispatch = useDispatch();
+export function Popup({ title, children }: Props) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleClick = () => {
@@ -27,7 +31,9 @@ export function Popup(props) {
             <FiX />
           </button>
         </div>
+
         <hr />
+
         <div className="popup-content">{children}</div>
       </div>
     </div>
