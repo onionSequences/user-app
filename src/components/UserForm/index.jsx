@@ -1,35 +1,34 @@
-'use client'
+'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import "./userForm.scss";
+import './userForm.scss';
 
-import femaleAvatar1 from "../../../public/female-avatar-one.png";
-import femaleAvatar2 from "../../../public/female-avatar-two.png";
-import maleAvatar1 from "../../../public/male-avatar-one.png";
-import maleAvatar2 from "../../../public/male-avatar-two.png";
-import { editUserData as setEditUserData } from "../../redux/userSlice";
-import Image from "next/image";
+import femaleAvatar1 from '../../../public/female-avatar-one.png';
+import femaleAvatar2 from '../../../public/female-avatar-two.png';
+import maleAvatar1 from '../../../public/male-avatar-one.png';
+import maleAvatar2 from '../../../public/male-avatar-two.png';
+import { editUserData as setEditUserData } from '../../redux/userSlice';
+import Image from 'next/image';
 
 // TODO: Refactor this later
 export function UserForm({ handleSubmit }) {
   const router = useRouter();
 
-  const editUserData = useSelector(state => state.users.editUserData);
+  const editUserData = useSelector((state) => state.users.editUserData);
   const dispatch = useDispatch();
 
   const [values, setValues] = useState({
-    avatar: "",
-    name: "",
-    age: "",
-    gender: "Male",
+    avatar: '',
+    name: '',
+    age: '',
+    gender: 'Male',
   });
 
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
-
 
   const validate = useCallback(() => {
     let fields = values;
@@ -46,7 +45,7 @@ export function UserForm({ handleSubmit }) {
     return formIsValid;
   }, [values]);
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
@@ -62,17 +61,17 @@ export function UserForm({ handleSubmit }) {
 
   return (
     <form
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
         if (validate()) handleSubmit(values);
       }}
     >
       {values.avatar && (
-          <Image src={values.avatar} alt={values.name} width={100} height={100} />
+        <Image src={values.avatar} alt={values.name} width={100} height={100} />
       )}
       <div className="field-wrapper">
         <label htmlFor="avatar">Choose avatar:</label>
-        {showErrors && <div style={{ color: "red" }}>{errors.avatar}</div>}
+        {showErrors && <div style={{ color: 'red' }}>{errors.avatar}</div>}
         <select
           value={values.avatar}
           name="avatar"
@@ -97,7 +96,7 @@ export function UserForm({ handleSubmit }) {
           value={values.name}
           onChange={handleInputChange}
         />
-        {showErrors && <div style={{ color: "red" }}>{errors.name}</div>}
+        {showErrors && <div style={{ color: 'red' }}>{errors.name}</div>}
       </div>
       <div className="field-wrapper">
         <label htmlFor="age">Age:</label>
@@ -108,7 +107,7 @@ export function UserForm({ handleSubmit }) {
           value={values.age}
           onChange={handleInputChange}
         />
-        {showErrors && <div style={{ color: "red" }}>{errors.age}</div>}
+        {showErrors && <div style={{ color: 'red' }}>{errors.age}</div>}
       </div>
       <div className="field-wrapper">
         <label htmlFor="gender">Gender:</label>
@@ -116,7 +115,7 @@ export function UserForm({ handleSubmit }) {
           type="radio"
           name="gender"
           id="male"
-          checked={values.gender === "Male"}
+          checked={values.gender === 'Male'}
           value="Male"
           onChange={handleInputChange}
         />
@@ -125,7 +124,7 @@ export function UserForm({ handleSubmit }) {
           type="radio"
           name="gender"
           id="female"
-          checked={values.gender === "Female"}
+          checked={values.gender === 'Female'}
           value="Female"
           onChange={handleInputChange}
         />
@@ -136,7 +135,7 @@ export function UserForm({ handleSubmit }) {
           type="button"
           onClick={() => {
             dispatch(setEditUserData(null));
-            router.push("/");
+            router.push('/');
           }}
         >
           Cancel
@@ -145,4 +144,4 @@ export function UserForm({ handleSubmit }) {
       </div>
     </form>
   );
-};
+}

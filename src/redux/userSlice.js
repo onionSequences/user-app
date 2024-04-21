@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const userSlice = createSlice({
-  name: "users",
+  name: 'users',
   initialState: {
     users: [],
     searchResults: [],
-    searchQuery: "",
+    searchQuery: '',
     editUserData: null,
   },
   reducers: {
@@ -13,7 +13,7 @@ export const userSlice = createSlice({
       state.users = payload;
     },
     searchUsers: (state, { payload }) => {
-      state.searchUsers = state.users.filter(user =>
+      state.searchUsers = state.users.filter((user) =>
         user.name.toLowerCase().includes(payload.toLowerCase())
       );
     },

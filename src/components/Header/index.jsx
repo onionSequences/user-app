@@ -1,25 +1,25 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import "./header.scss";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import './header.scss';
 
-import logo from "../../../public/logo.png";
-import { searchQuery, searchUsers } from "../../redux/userSlice";
-import Image from "next/image";
+import logo from '../../../public/logo.png';
+import { searchQuery, searchUsers } from '../../redux/userSlice';
+import Image from 'next/image';
 
 export function Header() {
   const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
     dispatch(searchQuery(e.target.value));
   };
 
   useEffect(() => {
     if (searchTerm) {
-      const search = searchTerm => {
+      const search = (searchTerm) => {
         dispatch(searchUsers(searchTerm));
       };
       search(searchTerm);
@@ -41,4 +41,4 @@ export function Header() {
       </div>
     </header>
   );
-};
+}

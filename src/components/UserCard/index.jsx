@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { ref, remove, set } from "firebase/database";
+import { ref, remove, set } from 'firebase/database';
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
-import { FiCopy, FiEdit, FiTrash2 } from "react-icons/fi";
-import { useDispatch } from "react-redux";
-import { editUserData } from "../../redux/userSlice";
+import { useState } from 'react';
+import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { editUserData } from '../../redux/userSlice';
 
-import { db } from './../../lib/firebase';
-import "./userCard.scss";
-import Image from "next/image";
+import { db } from '../../lib/firebase';
+import './userCard.scss';
+import Image from 'next/image';
 
 export function UserCard({ userData }) {
   const router = useRouter();
@@ -18,7 +18,7 @@ export function UserCard({ userData }) {
   let [numOfClones, setNumOfClones] = useState(1);
 
   const handleDelete = () => {
-    const userRef = ref(db, 'users/' + userData.id)
+    const userRef = ref(db, 'users/' + userData.id);
 
     remove(userRef);
   };
@@ -31,7 +31,7 @@ export function UserCard({ userData }) {
     duplicateUser.name = `${duplicateUser.name} (${numOfClones})`;
 
     set(ref(db, 'users/' + userData.id + 1), {
-      ...duplicateUser
+      ...duplicateUser,
     });
   };
 
@@ -43,7 +43,12 @@ export function UserCard({ userData }) {
   return (
     <div className="card">
       <div className="avatar">
-        <Image src={userData.avatar} alt={userData.name} width={100} height={100} />
+        <Image
+          src={userData.avatar}
+          alt={userData.name}
+          width={100}
+          height={100}
+        />
       </div>
       <div className="card-info">
         <h4>
@@ -55,8 +60,8 @@ export function UserCard({ userData }) {
           Created:
           <br />
           {new Date(userData.createdAt).toLocaleString(navigator.language, {
-            timeStyle: "short",
-            dateStyle: "medium",
+            timeStyle: 'short',
+            dateStyle: 'medium',
           })}
         </p>
       </div>
@@ -67,7 +72,7 @@ export function UserCard({ userData }) {
         <button
           type="button"
           onClick={() => {
-            setNumOfClones(prev => prev + 1);
+            setNumOfClones((prev) => prev + 1);
             handleDuplicate();
           }}
         >
@@ -79,4 +84,4 @@ export function UserCard({ userData }) {
       </div>
     </div>
   );
-};
+}
