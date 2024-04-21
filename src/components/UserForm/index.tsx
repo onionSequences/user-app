@@ -1,9 +1,6 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { editUserData as setEditUserData } from 'lib/redux/userSlice';
+import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
+import { editUserData as setEditUserData } from 'lib/redux/usersSlice';
 import Image from 'next/image';
 
 import femaleAvatar1 from 'public/female-avatar-one.png';
@@ -12,73 +9,96 @@ import maleAvatar1 from 'public/male-avatar-one.png';
 import maleAvatar2 from 'public/male-avatar-two.png';
 
 import './userForm.scss';
+import { useAppDispatch, useAppSelector } from 'lib/redux/hooks';
+import { Gender, User, UserCreationData } from '@/types/user';
 
-// TODO: Refactor this later
-export function UserForm({ handleSubmit }) {
+const INITIAL_CREATION_DATA = {
+  avatar: '',
+  name: '',
+  age: '',
+  gender: Gender.Male,
+};
+
+type Errors = (keyof UserCreationData)[];
+
+type Props = {
+  handleSubmit: (FormData: User) => void;
+};
+
+export function UserForm({ handleSubmit }: Props) {
   const router = useRouter();
 
-  const editUserData = useSelector((state) => state.users.editUserData);
-  const dispatch = useDispatch();
+  const editUserData = useAppSelector((state) => state.users.editUserData);
+  const dispatch = useAppDispatch();
 
-  const [values, setValues] = useState({
-    avatar: '',
-    name: '',
-    age: '',
-    gender: 'Male',
-  });
-
-  const [errors, setErrors] = useState({});
-  const [showErrors, setShowErrors] = useState(false);
-
-  const validate = useCallback(() => {
-    let fields = values;
-    let formIsValid = true;
-    let errors = {};
-    for (const property in fields) {
-      if (!fields[property]) {
-        formIsValid = false;
-        errors[property] = `${property} is required`;
-      }
-    }
-    setShowErrors(!formIsValid);
-    setErrors({ ...errors });
-    return formIsValid;
-  }, [values]);
-
-  const handleInputChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  useEffect(() => {
-    if (showErrors) validate();
-  }, [values, showErrors, validate]);
+  const [userCreationData, setUserCreationData] = useState<UserCreationData>(
+    INITIAL_CREATION_DATA
+  );
+  const [fieldsWithError, setFieldsWithError] = useState<Errors>([]);
 
   useEffect(() => {
     if (editUserData !== null) {
-      setValues({ ...editUserData });
+      setUserCreationData({ ...editUserData });
     }
   }, [editUserData]);
 
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    setUserCreationData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleOnBlur = (
+    e: FocusEvent<HTMLSelectElement> | FocusEvent<HTMLInputElement>
+  ) => {
+    const currentField = e.target.name as keyof UserCreationData;
+
+    if (e.target.value) {
+      setFieldsWithError((prevFields) =>
+        prevFields.filter((prevField) => prevField !== currentField)
+      );
+    } else {
+      setFieldsWithError((prevFields) => [...prevFields, currentField]);
+    }
+  };
+
+  const onSubmit = () => {
+    const isDataValid = fieldsWithError.length === 0;
+
+    if (isDataValid) handleSubmit(userCreationData);
+  };
+
+  const checkHasError = (field: keyof UserCreationData) =>
+    fieldsWithError.some((fieldWithError) => fieldWithError === field);
+
+  const errorMessage = 'This field is mandatory';
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (validate()) handleSubmit(values);
-      }}
-    >
-      {values.avatar && (
-        <Image src={values.avatar} alt={values.name} width={100} height={100} />
+    <form action={onSubmit}>
+      {userCreationData.avatar && (
+        <Image
+          src={userCreationData.avatar}
+          alt={userCreationData.name}
+          width={100}
+          height={100}
+        />
       )}
       <div className="field-wrapper">
         <label htmlFor="avatar">Choose avatar:</label>
-        {showErrors && <div style={{ color: 'red' }}>{errors.avatar}</div>}
+        {checkHasError('avatar') && (
+          <div style={{ color: 'red' }}>{errorMessage}</div>
+        )}
         <select
-          value={values.avatar}
+          value={userCreationData.avatar}
           name="avatar"
           id="avatar"
           onChange={handleInputChange}
+          onBlur={handleOnBlur}
         >
-          <option value="" defaultValue hidden>
+          <option value="" hidden>
             Not selected
           </option>
           <option value={maleAvatar1.src}>Men 1</option>
@@ -93,10 +113,13 @@ export function UserForm({ handleSubmit }) {
           type="text"
           name="name"
           id="name"
-          value={values.name}
+          value={userCreationData.name}
           onChange={handleInputChange}
+          onBlur={handleOnBlur}
         />
-        {showErrors && <div style={{ color: 'red' }}>{errors.name}</div>}
+        {checkHasError('name') && (
+          <div style={{ color: 'red' }}>{errorMessage}</div>
+        )}
       </div>
       <div className="field-wrapper">
         <label htmlFor="age">Age:</label>
@@ -104,10 +127,13 @@ export function UserForm({ handleSubmit }) {
           type="number"
           name="age"
           id="age"
-          value={values.age}
+          value={userCreationData.age}
           onChange={handleInputChange}
+          onBlur={handleOnBlur}
         />
-        {showErrors && <div style={{ color: 'red' }}>{errors.age}</div>}
+        {checkHasError('age') && (
+          <div style={{ color: 'red' }}>{errorMessage}</div>
+        )}
       </div>
       <div className="field-wrapper">
         <label htmlFor="gender">Gender:</label>
@@ -115,18 +141,20 @@ export function UserForm({ handleSubmit }) {
           type="radio"
           name="gender"
           id="male"
-          checked={values.gender === 'Male'}
+          checked={userCreationData.gender === 'Male'}
           value="Male"
           onChange={handleInputChange}
+          onBlur={handleOnBlur}
         />
         <label htmlFor="male">Male</label>
         <input
           type="radio"
           name="gender"
           id="female"
-          checked={values.gender === 'Female'}
+          checked={userCreationData.gender === 'Female'}
           value="Female"
           onChange={handleInputChange}
+          onBlur={handleOnBlur}
         />
         <label htmlFor="female">Female</label>
       </div>

@@ -1,22 +1,16 @@
 'use client';
 
-import { push, ref, serverTimestamp, set } from 'firebase/database';
 import { useRouter } from 'next/navigation';
 import { Popup } from 'components/Popup';
 import { UserForm } from 'components/UserForm';
-import { db } from 'lib/firebase';
+import { addNewUser } from 'lib/firebase/helpers';
+import { User } from '@/types/user';
 
 export default function CreateUserPage() {
   const router = useRouter();
 
-  const handleSubmit = (userData) => {
-    const usersRef = ref(db, 'users/');
-    const newDataRef = push(usersRef);
-
-    set(newDataRef, {
-      ...userData,
-      createdAt: serverTimestamp(),
-    });
+  const handleSubmit = (userData: User) => {
+    addNewUser(userData);
 
     router.push('/');
   };

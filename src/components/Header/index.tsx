@@ -1,25 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { ChangeEvent, useEffect, useState } from 'react';
 import './header.scss';
 
 import logo from 'public/logo.png';
-import { searchQuery, searchUsers } from 'lib/redux/userSlice';
+import { searchQuery, searchUsers } from 'lib/redux/usersSlice';
 import Image from 'next/image';
+import { useAppDispatch } from 'lib/redux/hooks';
 
 export function Header() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-    dispatch(searchQuery(e.target.value));
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    setSearchTerm(inputValue);
+    dispatch(searchQuery(inputValue));
   };
 
   useEffect(() => {
     if (searchTerm) {
-      const search = (searchTerm) => {
+      const search = (searchTerm: string) => {
         dispatch(searchUsers(searchTerm));
       };
       search(searchTerm);

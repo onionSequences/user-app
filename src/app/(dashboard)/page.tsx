@@ -3,25 +3,31 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiGrid, FiList } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { onValue, ref } from 'firebase/database';
 import { UserCard } from 'components/UserCard';
-import { setUsers } from 'lib/redux/userSlice';
+import { setUsers } from 'lib/redux/usersSlice';
 
 import { db } from 'lib/firebase';
 import './dashboard.scss';
+import { useAppDispatch, useAppSelector } from 'lib/redux/hooks';
+
+enum SortType {
+  Newest = 'newest',
+  Oldest = 'oldest',
+  NameAsc = 'nameAsc',
+}
 
 export default function DashboardPage() {
   const router = useRouter();
 
-  const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.users);
-  const searchQuery = useSelector((state) => state.users.searchQuery);
-  const searchUsers = useSelector((state) => state.users.searchUsers);
+  const dispatch = useAppDispatch();
+  const users = useAppSelector((state) => state.users.users);
+  const searchQuery = useAppSelector((state) => state.users.searchQuery);
+  const searchUsers = useAppSelector((state) => state.users.searchUsers);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [sortType, setSortType] = useState('newest');
+  const [sortType, setSortType] = useState(SortType.Newest);
   const [isListView, setIsListView] = useState(false);
 
   /* Initial data */
@@ -41,19 +47,21 @@ export default function DashboardPage() {
     });
   }, [dispatch]);
 
+  // TODO: Do sorting & filtering trough firebase
   // Sorting
   useEffect(() => {
-    const sortedUsers = (sortType) => {
+    const sortedUsers = (sortType: SortType) => {
       let sorted;
-      if (sortType === 'newest')
-        sorted = [...users].sort((a, b) => (a.id < b.id && 1) || -1);
+      if (sortType === SortType.Newest)
+        sorted = [...users].sort((a, b) => (a.id! < b.id! && 1) || -1);
 
-      if (sortType === 'oldest')
-        sorted = [...users].sort((a, b) => (a.id > b.id && 1) || -1);
+      if (sortType === SortType.Oldest)
+        sorted = [...users].sort((a, b) => (a.id! > b.id! && 1) || -1);
 
-      if (sortType === 'nameAsc')
+      if (sortType === SortType.NameAsc)
         sorted = [...users].sort((a, b) => a.name.localeCompare(b.name));
 
+      // wtf is this
       if (JSON.stringify(sorted) !== JSON.stringify(users)) {
         dispatch(setUsers(sorted));
       }
@@ -72,7 +80,7 @@ export default function DashboardPage() {
           </button>
           <select
             name="sort"
-            onChange={(e) => setSortType(e.target.value)}
+            onChange={(e) => setSortType(e.target.value as SortType)}
             value={sortType}
           >
             <option value="newest">Newest</option>
