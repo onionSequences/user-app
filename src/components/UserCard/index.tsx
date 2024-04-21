@@ -1,21 +1,23 @@
 'use client';
 
-import { ref, remove, set } from 'firebase/database';
+import { ref, remove } from 'firebase/database';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
-import { editUserData } from '../../redux/userSlice';
+import { editUserData } from 'lib/redux/usersSlice';
 
-import { db } from '../../lib/firebase';
+import { db } from 'lib/firebase';
 import './userCard.scss';
 import Image from 'next/image';
+import { useAppDispatch } from 'lib/redux/hooks';
+import { User } from '@/types/user';
+import { addNewUser } from 'lib/firebase/helpers';
 
-export function UserCard({ userData }) {
+export function UserCard({ userData }: { userData: User }) {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  let [numOfClones, setNumOfClones] = useState(1);
+  const [numOfClones, setNumOfClones] = useState(1);
 
   const handleDelete = () => {
     const userRef = ref(db, 'users/' + userData.id);
@@ -24,15 +26,15 @@ export function UserCard({ userData }) {
   };
 
   const handleDuplicate = () => {
-    const duplicateUser = {
-      ...userData,
-    };
-    delete duplicateUser.id;
-    duplicateUser.name = `${duplicateUser.name} (${numOfClones})`;
+    const { id, ...userDataWithoutId } = userData;
 
-    set(ref(db, 'users/' + userData.id + 1), {
-      ...duplicateUser,
-    });
+    const duplicateUser = {
+      ...userDataWithoutId,
+      // TODO: This is bad
+      name: `${userDataWithoutId.name} (${numOfClones})`,
+    };
+
+    addNewUser(duplicateUser);
   };
 
   const handleEdit = () => {
@@ -59,7 +61,7 @@ export function UserCard({ userData }) {
         <p>
           Created:
           <br />
-          {new Date(userData.createdAt).toLocaleString(navigator.language, {
+          {new Date(userData.createdAt!).toLocaleString(navigator.language, {
             timeStyle: 'short',
             dateStyle: 'medium',
           })}
