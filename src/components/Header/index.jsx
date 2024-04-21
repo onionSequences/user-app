@@ -1,22 +1,25 @@
-import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
-import "./Header.scss";
+'use client';
 
-import logo from "../../assets/img/logo.png";
-import { searchQuery, searchUsers } from "../../redux/userSlice";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import './header.scss';
 
-const Header = () => {
+import logo from '../../../public/logo.png';
+import { searchQuery, searchUsers } from '../../redux/userSlice';
+import Image from 'next/image';
+
+export function Header() {
   const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
     dispatch(searchQuery(e.target.value));
   };
 
   useEffect(() => {
     if (searchTerm) {
-      const search = searchTerm => {
+      const search = (searchTerm) => {
         dispatch(searchUsers(searchTerm));
       };
       search(searchTerm);
@@ -27,7 +30,7 @@ const Header = () => {
     <header>
       <div className="wrapper">
         <div className="logo-box">
-          <img src={logo} alt="logo" />
+          <Image src={logo.src} alt="logo" width={32} height={32} />
           <h1>User App</h1>
         </div>
         <input
@@ -38,6 +41,4 @@ const Header = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

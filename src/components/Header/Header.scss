@@ -1,4 +1,4 @@
-@import "../../assets/styles/abstracts";
+@import '../../styles/abstracts';
 
 header {
   height: 100px;
@@ -14,6 +14,7 @@ header {
       justify-content: space-evenly;
     }
   }
+
   .logo-box {
     @include flex(row, center, center);
 

@@ -1,45 +1,54 @@
-import { useState } from "react";
-import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
-import { FiEdit, FiCopy, FiTrash2 } from "react-icons/fi";
-import "./UserCard.scss";
+'use client';
 
-import { editUserData } from "../../redux/userSlice";
-import firebase from "../../util/firebase";
+import { ref, remove, set } from 'firebase/database';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { editUserData } from '../../redux/userSlice';
 
-const UserCard = props => {
-  const { userData } = props;
+import { db } from '../../lib/firebase';
+import './userCard.scss';
+import Image from 'next/image';
 
+export function UserCard({ userData }) {
+  const router = useRouter();
   const dispatch = useDispatch();
+
   let [numOfClones, setNumOfClones] = useState(1);
-  let history = useHistory();
 
   const handleDelete = () => {
-    const userRef = firebase.database().ref("Users").child(userData.id);
-    userRef.remove();
+    const userRef = ref(db, 'users/' + userData.id);
+
+    remove(userRef);
   };
 
   const handleDuplicate = () => {
     const duplicateUser = {
       ...userData,
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
     };
     delete duplicateUser.id;
     duplicateUser.name = `${duplicateUser.name} (${numOfClones})`;
 
-    const userRef = firebase.database().ref("Users");
-    userRef.push(duplicateUser);
+    set(ref(db, 'users/' + userData.id + 1), {
+      ...duplicateUser,
+    });
   };
 
   const handleEdit = () => {
     dispatch(editUserData(userData));
-    history.push(`/user/edit/${userData.id}`);
+    router.push(`/edit/${userData.id}`);
   };
 
   return (
     <div className="card">
       <div className="avatar">
-        <img src={userData.avatar} alt={userData.name} />
+        <Image
+          src={userData.avatar}
+          alt={userData.name}
+          width={100}
+          height={100}
+        />
       </div>
       <div className="card-info">
         <h4>
@@ -51,8 +60,8 @@ const UserCard = props => {
           Created:
           <br />
           {new Date(userData.createdAt).toLocaleString(navigator.language, {
-            timeStyle: "short",
-            dateStyle: "medium",
+            timeStyle: 'short',
+            dateStyle: 'medium',
           })}
         </p>
       </div>
@@ -63,7 +72,7 @@ const UserCard = props => {
         <button
           type="button"
           onClick={() => {
-            setNumOfClones(prev => prev + 1);
+            setNumOfClones((prev) => prev + 1);
             handleDuplicate();
           }}
         >
@@ -75,6 +84,4 @@ const UserCard = props => {
       </div>
     </div>
   );
-};
-
-export default UserCard;
+}
