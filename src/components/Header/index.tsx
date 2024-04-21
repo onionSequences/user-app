@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './header.scss';
 
-import logo from '../../../public/logo.png';
-import { searchQuery, searchUsers } from '../../redux/userSlice';
+import logo from 'public/logo.png';
+import { searchQuery, searchUsers } from 'lib/redux/userSlice';
 import Image from 'next/image';
 
 export function Header() {

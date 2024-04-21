@@ -1,10 +1,10 @@
 'use client';
 
 import { Provider } from 'react-redux';
-import store from '../../redux/store';
+import store from 'lib/redux/store';
 
-import { Header } from '../../components/Header';
-import '../../styles/globals.scss';
+import { Header } from 'components/Header';
+import 'styles/globals.scss';
 
 export default function RootLayout({ children }) {
   return (

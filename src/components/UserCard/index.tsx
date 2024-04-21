@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
-import { editUserData } from '../../redux/userSlice';
+import { editUserData } from 'lib/redux/userSlice';
 
-import { db } from '../../lib/firebase';
+import { db } from 'lib/firebase';
 import './userCard.scss';
 import Image from 'next/image';
 

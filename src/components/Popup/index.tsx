@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { FiX } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
-import { editUserData } from '../../redux/userSlice';
+import { editUserData } from 'lib/redux/userSlice';
 
 import './popup.scss';
 

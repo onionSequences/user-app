@@ -2,9 +2,9 @@
 
 import { push, ref, serverTimestamp, set } from 'firebase/database';
 import { useRouter } from 'next/navigation';
-import { Popup } from './../../../components/Popup/index';
-import { UserForm } from '../../../components/UserForm';
-import { db } from '../../../lib/firebase';
+import { Popup } from 'components/Popup';
+import { UserForm } from 'components/UserForm';
+import { db } from 'lib/firebase';
 
 export default function CreateUserPage() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function CreateUserPage() {
 
   return (
     <Popup title="User form">
-      <UserForm handleSubmit={handleSubmit}/>
+      <UserForm handleSubmit={handleSubmit} />
     </Popup>
   );
 }

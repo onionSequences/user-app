@@ -6,10 +6,10 @@ import { FiGrid, FiList } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { onValue, ref } from 'firebase/database';
-import { UserCard } from '../../components/UserCard';
-import { setUsers } from '../../redux/userSlice';
+import { UserCard } from 'components/UserCard';
+import { setUsers } from 'lib/redux/userSlice';
 
-import { db } from '../../lib/firebase';
+import { db } from 'lib/firebase';
 import './dashboard.scss';
 
 export default function DashboardPage() {
@@ -32,7 +32,7 @@ export default function DashboardPage() {
       const users = snapshot.val();
       const listUsers = [];
       for (let id in users) {
-        listUsers.push({id, ...users[id]});
+        listUsers.push({ id, ...users[id] });
       }
       // Get newest first
       listUsers.sort((a, b) => (a.id < b.id && 1) || -1);
@@ -68,7 +68,7 @@ export default function DashboardPage() {
         <button onClick={() => router.push('/create')}>Add User</button>
         <div>
           <button onClick={() => setIsListView((prevState) => !prevState)}>
-            {isListView ? <FiGrid/> : <FiList/>}
+            {isListView ? <FiGrid /> : <FiList />}
           </button>
           <select
             name="sort"
@@ -84,7 +84,7 @@ export default function DashboardPage() {
       {isLoading && <p>Loading...</p>}
       <section className={`users-list wrapper ${isListView ? 'list' : ''}`}>
         {activeUsers &&
-          activeUsers.map((user) => <UserCard key={user.id} userData={user}/>)}
+          activeUsers.map((user) => <UserCard key={user.id} userData={user} />)}
       </section>
     </>
   );
