@@ -27,6 +27,6 @@ export const userSlice = createSlice({
 });
 
 export const { setUsers, searchUsers, searchQuery, editUserData } =
-  userSlice.actions;
+	userSlice.actions;
 
 export default userSlice.reducer;
