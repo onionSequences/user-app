@@ -9,7 +9,7 @@ export type User = {
   age: string;
   avatar: string;
   gender: Gender;
-  createdAt?: number;
+  createdAt?: string;
 };
 
 export type UserCreationData = Omit<User, 'createdAt' | 'id'>;

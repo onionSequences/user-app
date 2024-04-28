@@ -3,14 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiGrid, FiList } from 'react-icons/fi';
-
-import { onValue, ref } from 'firebase/database';
 import { UserCard } from 'components/UserCard';
 import { setUsers } from 'lib/redux/usersSlice';
-
-import { db } from 'lib/firebase';
 import './dashboard.scss';
 import { useAppDispatch, useAppSelector } from 'lib/redux/hooks';
+import { useFetchInitialData } from '@/app/hooks/useFetchInitialData';
 
 enum SortType {
   Newest = 'newest',
@@ -22,30 +19,13 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
+  const { isLoading } = useFetchInitialData();
   const users = useAppSelector((state) => state.users.users);
   const searchQuery = useAppSelector((state) => state.users.searchQuery);
   const searchUsers = useAppSelector((state) => state.users.searchUsers);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [sortType, setSortType] = useState(SortType.Newest);
   const [isListView, setIsListView] = useState(false);
-
-  /* Initial data */
-  useEffect(() => {
-    setIsLoading(true);
-    const usersRef = ref(db, 'users/');
-    onValue(usersRef, (snapshot) => {
-      const users = snapshot.val();
-      const listUsers = [];
-      for (let id in users) {
-        listUsers.push({ id, ...users[id] });
-      }
-      // Get newest first
-      listUsers.sort((a, b) => (a.id < b.id && 1) || -1);
-      dispatch(setUsers(listUsers));
-      setIsLoading(false);
-    });
-  }, [dispatch]);
 
   // TODO: Do sorting & filtering trough firebase
   // Sorting
