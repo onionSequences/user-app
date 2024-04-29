@@ -24,6 +24,7 @@ export async function fetchUsers(field: string, direction: OrderByDirection) {
   const docs = querySnapshot.docs;
   const users = docs.map((doc) => ({
     ...doc.data(),
+    id: doc.id,
     createdAt: convertUnixToDateFormat(doc.data().createdAt.seconds),
   })) as Users;
 
