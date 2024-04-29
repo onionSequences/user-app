@@ -3,8 +3,13 @@ import { newDb } from 'lib/firebase';
 import { Users } from '@/types/user';
 import { convertUnixToDateFormat } from 'lib/helpers/convertUnixToDateFormat';
 
-export async function fetchUsers() {
-  const q = query(collection(newDb, 'users'), orderBy('createdAt'));
+export enum OrderByDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export async function fetchUsers(field: string, direction: OrderByDirection) {
+  const q = query(collection(newDb, 'users'), orderBy(field, direction));
   const querySnapshot = await getDocs(q);
 
   const docs = querySnapshot.docs;

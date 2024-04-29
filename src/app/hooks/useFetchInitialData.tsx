@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchUsers } from 'lib/data';
+import { fetchUsers, OrderByDirection } from 'lib/data';
 import { setUsers } from 'lib/redux/usersSlice';
 import { useAppDispatch } from 'lib/redux/hooks';
 
@@ -10,8 +10,7 @@ export function useFetchInitialData() {
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
-    const users = await fetchUsers();
-
+    const users = await fetchUsers('createdAt', OrderByDirection.Desc);
     dispatch(setUsers(users));
     setIsLoading(false);
   }, []);
