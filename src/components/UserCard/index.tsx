@@ -11,7 +11,7 @@ import './userCard.scss';
 import Image from 'next/image';
 import { useAppDispatch } from 'lib/redux/hooks';
 import { User } from '@/types/user';
-import { addNewUser } from 'lib/firebase/helpers';
+import { addNewUser } from 'lib/data';
 
 export function UserCard({ userData }: { userData: User }) {
   const router = useRouter();
@@ -25,7 +25,7 @@ export function UserCard({ userData }: { userData: User }) {
     remove(userRef);
   };
 
-  const handleDuplicate = () => {
+  const handleDuplicate = async () => {
     const { id, ...userDataWithoutId } = userData;
 
     const duplicateUser = {
@@ -34,7 +34,7 @@ export function UserCard({ userData }: { userData: User }) {
       name: `${userDataWithoutId.name} (${numOfClones})`,
     };
 
-    addNewUser(duplicateUser);
+    await addNewUser(duplicateUser);
   };
 
   const handleEdit = () => {
