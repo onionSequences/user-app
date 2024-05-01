@@ -30,6 +30,8 @@ export async function fetchUsers(
     const docs = [] as Users;
 
     querySnapshot.forEach((doc) => {
+      if (!doc.data().createdAt) return;
+
       docs.push({
         ...doc.data(),
         id: doc.id,
