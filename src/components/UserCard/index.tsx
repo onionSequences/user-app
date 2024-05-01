@@ -1,6 +1,5 @@
 'use client';
 
-import { ref, remove } from 'firebase/database';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FiCopy, FiEdit, FiTrash2 } from 'react-icons/fi';
@@ -11,7 +10,10 @@ import './userCard.scss';
 import Image from 'next/image';
 import { useAppDispatch } from 'lib/redux/hooks';
 import { User } from '@/types/user';
-import { addNewUser } from 'lib/data';
+import { createUser } from 'lib/data';
+import { convertUnixToDateFormat } from 'lib/helpers/convertUnixToDateFormat';
+import { deleteDoc } from '@firebase/firestore';
+import { doc } from 'firebase/firestore';
 
 export function UserCard({ userData }: { userData: User }) {
   const router = useRouter();
@@ -19,10 +21,8 @@ export function UserCard({ userData }: { userData: User }) {
 
   const [numOfClones, setNumOfClones] = useState(1);
 
-  const handleDelete = () => {
-    const userRef = ref(db, 'users/' + userData.id);
-
-    remove(userRef);
+  const handleDelete = async () => {
+    await deleteDoc(doc(db, 'users', userData.id as string));
   };
 
   const handleDuplicate = async () => {
@@ -34,13 +34,15 @@ export function UserCard({ userData }: { userData: User }) {
       name: `${userDataWithoutId.name} (${numOfClones})`,
     };
 
-    await addNewUser(duplicateUser);
+    await createUser(duplicateUser);
   };
 
   const handleEdit = () => {
     dispatch(editUserData(userData));
     router.push(`/edit/${userData.id}`);
   };
+
+  const createdAt = convertUnixToDateFormat(userData.createdAt!.seconds);
 
   return (
     <div className="card">
@@ -61,10 +63,7 @@ export function UserCard({ userData }: { userData: User }) {
         <p>
           Created:
           <br />
-          {new Date(userData.createdAt!).toLocaleString(navigator.language, {
-            timeStyle: 'short',
-            dateStyle: 'medium',
-          })}
+          {createdAt}
         </p>
       </div>
       <div className="card-buttons">

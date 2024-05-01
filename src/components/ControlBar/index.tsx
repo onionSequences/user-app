@@ -3,8 +3,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { fetchUsers, OrderByDirection } from 'lib/data';
 import { setUsers } from 'lib/redux/usersSlice';
 import { useAppDispatch } from 'lib/redux/hooks';
-import { useRouter } from 'next/navigation';
 import { sortOptions, SortType } from 'components/ControlBar/constants';
+import Link from 'next/link';
 
 type Props = {
   isListView: boolean;
@@ -12,7 +12,6 @@ type Props = {
 };
 
 export function ControlBar({ isListView, setIsListView }: Props) {
-  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const [sortType, setSortType] = useState(SortType.NEWLY_CREATED);
@@ -53,7 +52,9 @@ export function ControlBar({ isListView, setIsListView }: Props) {
 
   return (
     <div className="control-bar wrapper">
-      <button onClick={() => router.push('/create')}>Add User</button>
+      <Link className="add-user-link" href={'/create'} scroll={false}>
+        Add User
+      </Link>
       <div>
         <button onClick={() => setIsListView((prevState) => !prevState)}>
           {isListView ? <FiGrid /> : <FiList />}

@@ -1,40 +1,56 @@
 import {
-  addDoc,
   collection,
-  getDocs,
+  doc,
+  onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
+  Timestamp,
 } from 'firebase/firestore';
-import { newDb } from 'lib/firebase';
+import { db } from 'lib/firebase';
 import { User, Users } from '@/types/user';
-import { convertUnixToDateFormat } from 'lib/helpers/convertUnixToDateFormat';
 
 export enum OrderByDirection {
   Asc = 'asc',
   Desc = 'desc',
 }
 
-const userCollection = collection(newDb, 'users');
+const userCollection = collection(db, 'users');
 
 export async function fetchUsers(field: string, direction: OrderByDirection) {
   const q = query(userCollection, orderBy(field, direction));
-  const querySnapshot = await getDocs(q);
+  const unsub = onSnapshot(q, (querySnapshot) => {
+    const docs = [] as Users;
 
-  const docs = querySnapshot.docs;
-  const users = docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-    createdAt: convertUnixToDateFormat(doc.data().createdAt.seconds),
-  })) as Users;
+    querySnapshot.forEach((doc) => {
+      docs.push({
+        ...doc.data(),
+        id: doc.id,
+        createdAt: doc.data().createdAt.toJSON(),
+      } as User);
+    });
 
-  return users;
+    return docs;
+  });
+
+  return unsub;
 }
 
-export async function addNewUser(user: User) {
-  const docRef = await addDoc(userCollection, {
+export async function createUser(user: User) {
+  const docRef = await setDoc(doc(userCollection), {
     ...user,
     createdAt: serverTimestamp(),
   });
   // TODO: Implement success notification with docRef.id (id of successfully created user
+}
+
+export async function updateUser(user: User) {
+  await setDoc(doc(userCollection, user.id), {
+    ...user,
+    createdAt: new Timestamp(
+      user.createdAt!.seconds,
+      user.createdAt!.nanoseconds
+    ),
+  });
 }

@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { UserCard } from 'components/UserCard';
-import './dashboard.scss';
 import { useAppSelector } from 'lib/redux/hooks';
 import { useFetchInitialData } from '@/app/hooks/useFetchInitialData';
 import { ControlBar } from 'components/ControlBar';
+
+import './dashboard.scss';
 
 export default function DashboardPage() {
   const { isLoading } = useFetchInitialData();
