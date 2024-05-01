@@ -10,6 +10,8 @@ import {
 } from 'firebase/firestore';
 import { db } from 'lib/firebase';
 import { User, Users } from '@/types/user';
+import { setUsers } from 'lib/redux/usersSlice';
+import { AppStore } from 'lib/redux/store';
 
 export enum OrderByDirection {
   Asc = 'asc',
@@ -18,7 +20,11 @@ export enum OrderByDirection {
 
 const userCollection = collection(db, 'users');
 
-export async function fetchUsers(field: string, direction: OrderByDirection) {
+export async function fetchUsers(
+  field: string,
+  direction: OrderByDirection,
+  dispatch: AppStore['dispatch']
+) {
   const q = query(userCollection, orderBy(field, direction));
   const unsub = onSnapshot(q, (querySnapshot) => {
     const docs = [] as Users;
@@ -31,10 +37,8 @@ export async function fetchUsers(field: string, direction: OrderByDirection) {
       } as User);
     });
 
-    return docs;
+    dispatch(setUsers(docs));
   });
-
-  return unsub;
 }
 
 export async function createUser(user: User) {
