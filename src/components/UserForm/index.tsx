@@ -68,7 +68,10 @@ export function UserForm({ handleSubmit }: Props) {
   const onSubmit = () => {
     const isDataValid = fieldsWithError.length === 0;
 
-    if (isDataValid) handleSubmit(userCreationData);
+    if (isDataValid) {
+      handleSubmit(userCreationData);
+      dispatch(setEditUserData(null));
+    }
   };
 
   const checkHasError = (field: keyof UserCreationData) =>

@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export enum Gender {
   Male = 'Male',
   Female = 'Female',
@@ -9,7 +11,7 @@ export type User = {
   age: string;
   avatar: string;
   gender: Gender;
-  createdAt?: number;
+  createdAt?: Timestamp;
 };
 
 export type UserCreationData = Omit<User, 'createdAt' | 'id'>;

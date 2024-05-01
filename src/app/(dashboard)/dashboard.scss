@@ -12,6 +12,19 @@ main {
   }
 }
 
+.add-user-link {
+  font-size: 13px;
+  color: $text-color;
+  padding: 10px 15px;
+  text-decoration: none;
+  background-color: $secondary-color;
+  border-radius: $border-radius-sm;
+
+  &:hover {
+    color: $accent-color;
+  }
+}
+
 .control-bar {
   @include flex(row, space-between, initial);
 
@@ -25,14 +38,6 @@ main {
 
     @include mq($small) {
       justify-content: flex-end;
-    }
-
-    button {
-      height: 40px;
-      width: 40px;
-      border-radius: $border-radius-sm;
-      padding: 4px 0 0 0;
-      font-size: 20px;
     }
   }
 }
