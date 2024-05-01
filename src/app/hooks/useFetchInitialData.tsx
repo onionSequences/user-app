@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
-import { OrderByDirection } from 'lib/data';
-import { setUsers } from 'lib/redux/usersSlice';
+import { fetchUsers, OrderByDirection } from 'lib/data';
 import { useAppDispatch } from 'lib/redux/hooks';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { db } from 'lib/firebase';
-import { User, Users } from '@/types/user';
 
 export function useFetchInitialData() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,28 +8,12 @@ export function useFetchInitialData() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
-    const userCollection = collection(db, 'users');
+    const fetchData = async () => {
+      await fetchUsers('createdAt', OrderByDirection.Desc, dispatch);
+    };
 
-    const q = query(
-      userCollection,
-      orderBy('createdAt', OrderByDirection.Desc)
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const users = [] as Users;
-
-      querySnapshot.forEach((doc) => {
-        users.push({
-          ...doc.data(),
-          id: doc.id,
-          createdAt: doc.data().createdAt.toJSON(),
-        } as User);
-      });
-
-      dispatch(setUsers(users));
-      setIsLoading(false);
-    });
+    void fetchData();
+    setIsLoading(false);
   }, []);
 
   return { isLoading };
