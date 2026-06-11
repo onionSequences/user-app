@@ -6,10 +6,13 @@ import { FiArrowLeft, FiLogOut, FiMail, FiUser } from 'react-icons/fi';
 import { logoutSession } from '@/lib/auth/clientSession';
 import { SessionUser } from '@/lib/auth/getSession';
 import { getAvatarGradient, getInitials } from '@/lib/helpers/avatar';
+import { UserSettings } from '@/types/settings';
+import { ReminderSettings } from './ReminderSettings';
 import './settings.scss';
 
 type Props = {
   user: SessionUser;
+  settings: UserSettings;
 };
 
 export function LogoutButton() {
@@ -29,7 +32,7 @@ export function LogoutButton() {
   );
 }
 
-export function SettingsContent({ user }: Props) {
+export function SettingsContent({ user, settings }: Props) {
   const displayName = user.name ?? '—';
   const email = user.email ?? '—';
 
@@ -57,6 +60,8 @@ export function SettingsContent({ user }: Props) {
           <p>{email}</p>
         </div>
       </div>
+
+      <ReminderSettings settings={settings} />
 
       <div className="settings-fields-card">
         <div className="settings-field">
