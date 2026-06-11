@@ -1,0 +1,117 @@
+@import 'styles/abstracts';
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-base;
+  padding: $spacer-m $spacer-s;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: $bg-surface;
+  border: 1px solid $border-subtle;
+  border-radius: $border-radius-md;
+  padding: $spacer-m $spacer-s;
+  box-shadow: $shadow-soft;
+
+  .auth-brand {
+    @include flex(row, center, center);
+    width: 48px;
+    height: 48px;
+    margin-bottom: $spacer-s;
+    border-radius: $border-radius-md;
+    background-color: $accent-muted;
+    color: $accent-color;
+    font-size: 22px;
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $text-color;
+  }
+
+  > p {
+    color: $text-color-lighten;
+    margin: 0 0 $spacer-s;
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: $accent-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-form {
+  .field-wrapper {
+    margin-bottom: $spacer-s;
+
+    label {
+      display: block;
+      color: $text-color-lighten;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  button[type='submit'] {
+    width: 100%;
+    margin-top: $spacer-xs;
+    background-color: $accent-color;
+    color: $bg-base;
+    border-color: $accent-color;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      background-color: $accent-color-darken;
+      border-color: $accent-color-darken;
+      color: $bg-base;
+    }
+  }
+}
+
+.auth-error {
+  color: $danger !important;
+  font-size: 0.85rem !important;
+  margin-bottom: $spacer-xs !important;
+}
+
+.auth-divider {
+  text-align: center;
+  color: $text-color-darken;
+  margin: $spacer-s 0;
+  font-size: 0.85rem;
+}
+
+.google-btn {
+  width: 100%;
+  background-color: $bg-elevated;
+  border: 1px solid $border-subtle;
+
+  &:hover {
+    background-color: $bg-hover;
+  }
+}
+
+.auth-footer {
+  margin-top: $spacer-s;
+  text-align: center;
+  color: $text-color-lighten;
+  font-size: 0.85rem;
+}

@@ -1,35 +1,88 @@
 @import 'styles/abstracts';
 
 header {
-  height: 100px;
+  height: 72px;
+  background-color: $bg-surface;
+  border-bottom: 1px solid $border-subtle;
   @include flex(row, center, stretch);
-  background-color: $secondary-color;
 
   .wrapper {
     @include flex(row, space-between, center);
-    flex-wrap: wrap;
-
-    @include mq($small) {
-      flex-direction: column;
-      justify-content: space-evenly;
-    }
+    gap: $spacer-xs;
   }
 
   .logo-box {
     @include flex(row, center, center);
+    gap: 10px;
+    text-decoration: none;
 
-    img {
-      width: 32px;
-      height: auto;
+    &:hover h1 {
+      color: $accent-color;
     }
+  }
 
-    h1 {
-      margin: 0;
-      padding-left: 15px;
-      font-size: 1.2em;
-      font-weight: 400;
-      text-transform: uppercase;
-      color: $text-color;
+  .logo-icon {
+    @include flex(row, center, center);
+    width: 36px;
+    height: 36px;
+    border-radius: $border-radius-sm;
+    background-color: $accent-muted;
+    color: $accent-color;
+    font-size: 18px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: $text-color;
+    transition: color 0.15s;
+  }
+}
+
+.header-profile {
+  .profile-pill {
+    @include flex(row, center, center);
+    gap: 10px;
+    padding: 6px 14px 6px 6px;
+    text-decoration: none;
+    background-color: $bg-elevated;
+    border: 1px solid $border-subtle;
+    border-radius: $border-radius-full;
+    transition: border-color 0.15s, background-color 0.15s;
+
+    &:hover {
+      border-color: rgba(232, 168, 73, 0.3);
+      background-color: $bg-hover;
+
+      .profile-name {
+        color: $text-color;
+      }
+    }
+  }
+
+  .profile-initials {
+    @include flex(row, center, center);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5c4a3a 0%, #3d2e24 100%);
+    color: $accent-color;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .profile-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: $text-color-lighten;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include mq($small) {
+      display: none;
     }
   }
 }

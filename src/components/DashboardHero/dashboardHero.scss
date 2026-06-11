@@ -1,0 +1,88 @@
+@import 'styles/abstracts';
+
+.dashboard-hero {
+  @include flex(row, space-between, flex-end);
+  gap: $spacer-s;
+  margin-bottom: $spacer-m;
+  flex-wrap: wrap;
+
+  @include mq($medium) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.dashboard-hero-date {
+  margin: 0 0 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: $accent-color;
+}
+
+.dashboard-hero h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: $text-color;
+}
+
+.dashboard-hero-stats {
+  margin: 0;
+  font-size: 0.95rem;
+  color: $text-color-lighten;
+}
+
+.dashboard-hero-cta {
+  @include flex(row, center, center);
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 12px 22px 12px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  color: $bg-base;
+  background: linear-gradient(135deg, $accent-color 0%, $accent-color-darken 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: $border-radius-full;
+  box-shadow:
+    0 2px 8px rgba(232, 168, 73, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+
+  &:hover {
+    color: $bg-base;
+    transform: translateY(-1px);
+    box-shadow:
+      0 6px 20px rgba(232, 168, 73, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 6px rgba(232, 168, 73, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  @include mq($medium) {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.dashboard-hero-cta-icon {
+  @include flex(row, center, center);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: rgba(20, 18, 16, 0.2);
+  font-size: 16px;
+  line-height: 1;
+}

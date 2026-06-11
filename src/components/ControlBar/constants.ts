@@ -1,25 +1,11 @@
 export enum SortType {
-  NEWLY_CREATED = 'newlyCreated',
-  OLDEST_CREATED = 'oldestCreated',
-  NAME_ASC = 'nameAsc',
-  NAME_DESC = 'nameDesc',
+  NAME = 'name',
+  NAME_DESC = 'name-desc',
+  BIRTHDAY = 'birthday',
 }
 
 export const sortOptions = [
-  {
-    value: SortType.NEWLY_CREATED,
-    label: 'Sort by: Newly created',
-  },
-  {
-    value: SortType.OLDEST_CREATED,
-    label: 'Sort by: Oldest created',
-  },
-  {
-    value: SortType.NAME_ASC,
-    label: 'Sort by: Name (A-Z)',
-  },
-  {
-    value: SortType.NAME_DESC,
-    label: 'Sort by: Name (Z-A)',
-  },
+  { value: SortType.NAME, label: 'Sort: Name (A–Z)' },
+  { value: SortType.NAME_DESC, label: 'Sort: Name (Z–A)' },
+  { value: SortType.BIRTHDAY, label: 'Sort: Birthday (soonest)' },
 ];

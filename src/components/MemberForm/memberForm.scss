@@ -1,0 +1,71 @@
+@import 'styles/abstracts';
+
+.member-form {
+  .field-wrapper {
+    margin-bottom: $spacer-s;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: $text-color-lighten;
+
+      .required {
+        color: $accent-color;
+        margin-left: 2px;
+      }
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      max-width: none;
+    }
+
+    .field-hint {
+      margin: 6px 0 0;
+      font-size: 0.8rem;
+      color: $text-color-darken;
+    }
+  }
+
+  .field-error {
+    color: $danger;
+    font-size: 0.85rem;
+    margin-top: 6px;
+  }
+
+  .form-actions {
+    @include flex(row, flex-end, center);
+    gap: $spacer-xs;
+    margin-top: $spacer-s;
+    padding-top: $spacer-s;
+    border-top: 1px solid $border-subtle;
+
+    .btn-cancel {
+      background: transparent;
+      border-color: transparent;
+      color: $text-color-lighten;
+
+      &:hover {
+        color: $text-color;
+        background-color: $bg-hover;
+      }
+    }
+
+    .btn-submit {
+      background-color: $accent-color;
+      color: $bg-base;
+      border-color: $accent-color;
+      font-weight: 600;
+
+      &:hover:not(:disabled) {
+        background-color: $accent-color-darken;
+        border-color: $accent-color-darken;
+        color: $bg-base;
+      }
+    }
+  }
+}

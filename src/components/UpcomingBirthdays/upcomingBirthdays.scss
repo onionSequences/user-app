@@ -1,0 +1,122 @@
+@import 'styles/abstracts';
+
+.upcoming-birthdays {
+  margin-bottom: $spacer-m;
+  padding: $spacer-s;
+  background-color: $bg-surface;
+  border: 1px solid $border-subtle;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-soft;
+
+  h2 {
+    margin: 0 0 $spacer-s;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $text-color-lighten;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    @include flex(row, flex-start, center);
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid $border-subtle;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &.is-today {
+      .upcoming-info strong {
+        color: $accent-color;
+      }
+    }
+  }
+}
+
+.upcoming-avatar {
+  @include flex(row, center, center);
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $text-color;
+}
+
+.upcoming-info {
+  flex: 1;
+  min-width: 0;
+
+  strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $text-color;
+  }
+}
+
+.upcoming-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: $text-color-darken;
+}
+
+.upcoming-days {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text-color-lighten;
+  background-color: $bg-elevated;
+  border-radius: $border-radius-full;
+
+  &--today {
+    color: $bg-base;
+    background-color: $accent-color;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: $spacer-m * 1.5 $spacer-s;
+  margin-top: $spacer-m;
+  background-color: $bg-surface;
+  border: 1px solid $border-subtle;
+  border-radius: $border-radius-md;
+
+  &-icon {
+    font-size: 2.5rem;
+    margin-bottom: $spacer-s;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0 0 $spacer-s;
+    color: $text-color-lighten;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    text-decoration: none;
+  }
+}

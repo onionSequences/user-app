@@ -1,19 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
-$font: 'Poppins', sans-serif;
+$font: 'Plus Jakarta Sans', sans-serif;
 
-/* Colors */
-$accent-color: #ffc300;
-$accent-color-darken: darken(#ffc300, 15%);
-$primary-color: #001d3d;
-$primary-color-lighten: lighten(#001d3d, 15%);
-$primary-color-darken: darken(#001d3d, 5%);
-$secondary-color: #003566;
-$secondary-color-lighten: lighten(#003566, 15%);
-$secondary-color-darken: darken(#003566, 5%);
-$text-color: #b9b9b9;
-$text-color-darken: darken(#b9b9b9, 15%);
-$text-color-lighten: lighten(#b9b9b9, 15%);
+/* Warm dark palette */
+$bg-base: #141210;
+$bg-surface: #1e1b18;
+$bg-elevated: #282420;
+$bg-hover: #322e28;
+
+$primary-color: $bg-base;
+$primary-color-lighten: $bg-elevated;
+$primary-color-darken: $bg-surface;
+
+$secondary-color: $bg-surface;
+$secondary-color-lighten: $bg-hover;
+$secondary-color-darken: $bg-elevated;
+
+$accent-color: #e8a849;
+$accent-color-darken: #c48a3a;
+$accent-muted: rgba(232, 168, 73, 0.15);
+
+$text-color: #f5f0eb;
+$text-color-lighten: #a8a29e;
+$text-color-darken: #78716c;
+
+$border-subtle: rgba(255, 255, 255, 0.07);
+$shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.35);
+
+$danger: #c45c5c;
+$danger-muted: rgba(196, 92, 92, 0.15);
 
 /* Spacer */
 $spacer-xs: 10px;
@@ -21,7 +36,10 @@ $spacer-s: 20px;
 $spacer-m: 40px;
 
 /* Border radius */
-$border-radius-sm: 8px;
+$border-radius-sm: 10px;
+$border-radius-md: 14px;
+$border-radius-lg: 18px;
+$border-radius-full: 999px;
 
 /* Breakpoints */
 $small: 450px;
