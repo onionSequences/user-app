@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "prod": "user-app-new-nextjs"
+  },
+  "targets": {},
+  "etags": {}
+}

@@ -1,0 +1,87 @@
+@import 'styles/abstracts';
+
+.confirm-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacer-s;
+  background-color: rgba(10, 8, 6, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.confirm-dialog {
+  width: 100%;
+  max-width: 420px;
+  padding: $spacer-s;
+  background-color: $bg-surface;
+  border: 1px solid $border-subtle;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-soft;
+}
+
+.confirm-dialog-header {
+  @include flex(row, space-between, flex-start);
+  gap: $spacer-xs;
+  margin-bottom: $spacer-xs;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: $text-color;
+  }
+
+  button {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 18px;
+    background: transparent;
+    color: $text-color-lighten;
+
+    &:hover {
+      color: $text-color;
+      background-color: $bg-hover;
+    }
+  }
+}
+
+.confirm-dialog-message {
+  margin: 0 0 $spacer-s;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: $text-color-lighten;
+}
+
+.confirm-dialog-actions {
+  @include flex(row, flex-end, center);
+  gap: $spacer-xs;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: $text-color-lighten;
+
+  &:hover {
+    color: $text-color;
+    background-color: $bg-hover;
+  }
+}
+
+.btn-danger {
+  @include flex(row, center, center);
+  gap: 6px;
+  background-color: $danger-muted;
+  color: $danger;
+  border: 1px solid rgba(196, 92, 92, 0.3);
+
+  &:hover:not(:disabled) {
+    background-color: $danger;
+    color: $text-color;
+    border-color: $danger;
+  }
+}

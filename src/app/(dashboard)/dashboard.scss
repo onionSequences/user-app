@@ -1,57 +1,62 @@
 @import 'styles/abstracts';
 
 main {
-  min-height: 100vh;
-  padding: $spacer-m 0;
-  background-color: $primary-color;
+  min-height: calc(100vh - 72px);
+  padding: $spacer-m 0 $spacer-m * 1.5;
+  background-color: $bg-base;
 
   p {
-    color: $text-color;
-    text-align: center;
-    margin-top: 40px;
+    color: $text-color-lighten;
   }
-}
 
-.add-user-link {
-  font-size: 13px;
-  color: $text-color;
-  padding: 10px 15px;
-  text-decoration: none;
-  background-color: $secondary-color;
-  border-radius: $border-radius-sm;
-
-  &:hover {
-    color: $accent-color;
+  .no-results {
+    margin-top: $spacer-m;
+    text-align: center;
+    color: $text-color-darken;
   }
 }
 
 .control-bar {
-  @include flex(row, space-between, initial);
-
-  @include mq($small) {
-    height: 90px;
-    flex-direction: column;
-  }
-
-  div {
-    @include flex(row, space-around, initial);
-
-    @include mq($small) {
-      justify-content: flex-end;
-    }
-  }
+  margin-bottom: $spacer-s;
 }
 
-.users-list {
-  margin-top: $spacer-m;
+.dashboard-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacer-xs;
+  align-items: center;
+  padding: 12px;
+  background-color: $bg-surface;
+  border: 1px solid $border-subtle;
+  border-radius: $border-radius-md;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 180px;
+  max-width: none !important;
+}
+
+.toolbar-icon-btn {
+  @include flex(row, center, center);
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  font-size: 18px;
+  background-color: $bg-elevated;
+}
+
+.sort-select {
+  min-width: 180px;
+}
+
+.members-list {
+  margin-top: $spacer-s;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-auto-rows: minmax(150px, auto);
-  grid-gap: 1rem;
+  gap: 16px;
 }
 
-/* List Layout */
-.users-list.list {
-  grid-template-columns: initial;
-  grid-auto-rows: minmax(150px, 1fr);
+.members-list.list {
+  grid-template-columns: 1fr;
 }

@@ -1,45 +1,31 @@
-'use client';
-
-import { ChangeEvent, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { FiUsers } from 'react-icons/fi';
+import { SessionUser } from '@/lib/auth/getSession';
+import { getInitials } from '@/lib/helpers/avatar';
 import './header.scss';
 
-import logo from 'public/logo.png';
-import { searchQuery, searchUsers } from 'lib/redux/usersSlice';
-import Image from 'next/image';
-import { useAppDispatch } from 'lib/redux/hooks';
+type Props = {
+  user: SessionUser;
+};
 
-export function Header() {
-  const dispatch = useAppDispatch();
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    setSearchTerm(inputValue);
-    dispatch(searchQuery(inputValue));
-  };
-
-  useEffect(() => {
-    if (searchTerm) {
-      const search = (searchTerm: string) => {
-        dispatch(searchUsers(searchTerm));
-      };
-      search(searchTerm);
-    }
-  }, [searchTerm, dispatch]);
+export function Header({ user }: Props) {
+  const displayName = user.name ?? user.email ?? 'Account';
 
   return (
     <header>
       <div className="wrapper">
-        <div className="logo-box">
-          <Image src={logo.src} alt="logo" width={32} height={32} />
-          <h1>User App</h1>
+        <Link href="/" className="logo-box">
+          <span className="logo-icon">
+            <FiUsers />
+          </span>
+          <h1>Family Circle</h1>
+        </Link>
+        <div className="header-profile">
+          <Link href="/settings" className="profile-pill">
+            <span className="profile-initials">{getInitials(displayName)}</span>
+            <span className="profile-name">{displayName}</span>
+          </Link>
         </div>
-        <input
-          placeholder="Search for user..."
-          onChange={handleInputChange}
-          value={searchTerm}
-        />
       </div>
     </header>
   );
